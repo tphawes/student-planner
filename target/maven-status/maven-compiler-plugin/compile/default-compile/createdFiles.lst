@@ -1,0 +1,11 @@
+com\taskManager\web\service\StudentService.class
+com\taskManager\web\model\Todo.class
+com\taskManager\web\controller\StudentController.class
+com\taskManager\web\service\LoginService.class
+com\taskManager\web\service\TodoService.class
+com\taskManager\web\controller\IndexController.class
+com\taskManager\web\controller\LoginController.class
+com\taskManager\web\model\Student.class
+com\taskManager\web\TaskManager.class
+com\taskManager\web\controller\TodoController.class
+com\taskManager\web\controller\TestController.class

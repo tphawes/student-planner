@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests" time="0.011" tests="1" errors="1" skipped="0" failures="0">
+  <properties>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="java.vm.version" value="15.0.1+9-18"/>
+    <property name="sun.boot.library.path" value="C:\Users\tomha\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="path.separator" value=";"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="java.runtime.version" value="15.0.1+9-18"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\tomha\AppData\Local\Temp\"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="classworlds.conf" value="C:\Users\tomha\OneDrive\Eclipse\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf10960744486669394815.tmp"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Users\tomha\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Users/tomha/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;C:/Users/tomha/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Oracle2\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\PuTTY\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\tomha\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Java\jdk1.8.0_151\bin;C:\Program Files\apache-maven-3.5.2\bin;C:\Users\tomha\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\tomha\AppData\Roaming\npm;;C:\WINDOWS\system32;;."/>
+    <property name="jdk.debug" value="release"/>
+    <property name="java.class.version" value="59.0"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.0"/>
+    <property name="user.home" value="C:\Users\tomha"/>
+    <property name="user.timezone" value="America/New_York"/>
+    <property name="file.encoding" value="Cp1252"/>
+    <property name="java.specification.version" value="15"/>
+    <property name="user.name" value="tomha"/>
+    <property name="java.class.path" value="C:\Users\tomha\.p2\pool\plugins\org.eclipse.m2e.maven.runtime_1.16.0.20200610-1735\jars\plexus-classworlds-2.6.0.jar"/>
+    <property name="java.vm.specification.version" value="15"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B install"/>
+    <property name="java.home" value="C:\Users\tomha\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="15.0.1"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\EMBEDDED"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.version.date" value="2020-10-20"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase name="initializationError" classname="com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests" time="0.011">
+    <error message="Unable to find a @SpringBootConfiguration, you need to use @ContextConfiguration or @SpringBootTest(classes=...) with your test" type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration, you need to use @ContextConfiguration or @SpringBootTest(classes=...) with your test
+	at org.springframework.util.Assert.state(Assert.java:392)
+	at org.springframework.boot.test.context.SpringBootTestContextBootstrapper.getOrFindConfigurationClasses(SpringBootTestContextBootstrapper.java:173)
+	at org.springframework.boot.test.context.SpringBootTestContextBootstrapper.processMergedContextConfiguration(SpringBootTestContextBootstrapper.java:133)
+	at org.springframework.test.context.support.AbstractTestContextBootstrapper.buildMergedContextConfiguration(AbstractTestContextBootstrapper.java:409)
+	at org.springframework.test.context.support.AbstractTestContextBootstrapper.buildDefaultMergedContextConfiguration(AbstractTestContextBootstrapper.java:323)
+	at org.springframework.test.context.support.AbstractTestContextBootstrapper.buildMergedContextConfiguration(AbstractTestContextBootstrapper.java:277)
+	at org.springframework.test.context.support.AbstractTestContextBootstrapper.buildTestContext(AbstractTestContextBootstrapper.java:112)
+	at org.springframework.boot.test.context.SpringBootTestContextBootstrapper.buildTestContext(SpringBootTestContextBootstrapper.java:78)
+	at org.springframework.test.context.TestContextManager.<init>(TestContextManager.java:120)
+	at org.springframework.test.context.TestContextManager.<init>(TestContextManager.java:105)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTestContextManager(SpringJUnit4ClassRunner.java:152)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.<init>(SpringJUnit4ClassRunner.java:143)
+	at org.springframework.test.context.junit4.SpringRunner.<init>(SpringRunner.java:49)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
+	at org.junit.internal.builders.AnnotatedBuilder.buildRunner(AnnotatedBuilder.java:104)
+	at org.junit.internal.builders.AnnotatedBuilder.runnerForClass(AnnotatedBuilder.java:86)
+	at org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:59)
+	at org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:26)
+	at org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:59)
+	at org.junit.internal.requests.ClassRequest.getRunner(ClassRequest.java:33)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:283)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:173)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:128)
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:203)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:155)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103)
+]]></error>
+    <system-out><![CDATA[19:46:39.663 [main] DEBUG org.springframework.test.context.junit4.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]
+19:46:39.673 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+19:46:39.683 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+19:46:39.704 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+19:46:39.717 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests], using SpringBootContextLoader
+19:46:39.722 [main] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]: class path resource [com/in28minutes/springboot/web/SpringBootFirstWebApplicationTests-context.xml] does not exist
+19:46:39.723 [main] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]: class path resource [com/in28minutes/springboot/web/SpringBootFirstWebApplicationTestsContext.groovy] does not exist
+19:46:39.723 [main] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+19:46:39.724 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]: SpringBootFirstWebApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+19:46:39.763 [main] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]
+19:46:39.772 [main] DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+19:46:39.774 [main] DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+19:46:39.775 [main] DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+19:46:39.785 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved classpath location [com/in28minutes/springboot/web/] to resources [URL [file:/C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/springboot/web/]]
+19:46:39.786 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes\springboot\web]
+19:46:39.786 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes\springboot\web] for files matching pattern [C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/springboot/web/*.class]
+19:46:39.790 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved location pattern [classpath*:com/in28minutes/springboot/web/*.class] to resources [file [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes\springboot\web\SpringBootFirstWebApplicationTests.class]]
+19:46:39.806 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved classpath location [com/in28minutes/springboot/] to resources [URL [file:/C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/springboot/]]
+19:46:39.806 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes\springboot]
+19:46:39.806 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes\springboot] for files matching pattern [C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/springboot/*.class]
+19:46:39.807 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved location pattern [classpath*:com/in28minutes/springboot/*.class] to resources []
+19:46:39.808 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved classpath location [com/in28minutes/] to resources [URL [file:/C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/]]
+19:46:39.809 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes]
+19:46:39.809 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes] for files matching pattern [C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/*.class]
+19:46:39.810 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved location pattern [classpath*:com/in28minutes/*.class] to resources []
+19:46:39.811 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved classpath location [com/] to resources [URL [file:/C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/], URL [file:/C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/classes/com/], URL [jar:file:/C:/Users/tomha/.m2/repository/com/fasterxml/classmate/1.3.3/classmate-1.3.3.jar!/com/], URL [jar:file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.8.5/jackson-databind-2.8.5.jar!/com/], URL [jar:file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.8.5/jackson-annotations-2.8.5.jar!/com/], URL [jar:file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.8.5/jackson-core-2.8.5.jar!/com/], URL [jar:file:/C:/Users/tomha/.m2/repository/com/jayway/jsonpath/json-path/2.2.0/json-path-2.2.0.jar!/com/]]
+19:46:39.811 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com]
+19:46:39.811 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com] for files matching pattern [C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/*.class]
+19:46:39.812 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\classes\com]
+19:46:39.812 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\classes\com] for files matching pattern [C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/classes/com/*.class]
+19:46:39.813 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in jar file [file:/C:/Users/tomha/.m2/repository/com/fasterxml/classmate/1.3.3/classmate-1.3.3.jar]
+19:46:39.814 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in jar file [file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.8.5/jackson-databind-2.8.5.jar]
+19:46:39.823 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in jar file [file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.8.5/jackson-annotations-2.8.5.jar]
+19:46:39.825 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in jar file [file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.8.5/jackson-core-2.8.5.jar]
+19:46:39.827 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in jar file [file:/C:/Users/tomha/.m2/repository/com/jayway/jsonpath/json-path/2.2.0/json-path-2.2.0.jar]
+19:46:39.828 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved location pattern [classpath*:com/*.class] to resources []
+19:46:39.837 [main] DEBUG org.springframework.test.context.junit4.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]
+19:46:39.837 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+19:46:39.837 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+19:46:39.838 [main] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+19:46:39.838 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests], using SpringBootContextLoader
+19:46:39.839 [main] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]: class path resource [com/in28minutes/springboot/web/SpringBootFirstWebApplicationTests-context.xml] does not exist
+19:46:39.840 [main] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]: class path resource [com/in28minutes/springboot/web/SpringBootFirstWebApplicationTestsContext.groovy] does not exist
+19:46:39.840 [main] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+19:46:39.840 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]: SpringBootFirstWebApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+19:46:39.846 [main] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.in28minutes.springboot.web.SpringBootFirstWebApplicationTests]
+19:46:39.846 [main] DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+19:46:39.846 [main] DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+19:46:39.846 [main] DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+19:46:39.847 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved classpath location [com/in28minutes/springboot/web/] to resources [URL [file:/C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/springboot/web/]]
+19:46:39.847 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes\springboot\web]
+19:46:39.848 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes\springboot\web] for files matching pattern [C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/springboot/web/*.class]
+19:46:39.849 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved location pattern [classpath*:com/in28minutes/springboot/web/*.class] to resources [file [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes\springboot\web\SpringBootFirstWebApplicationTests.class]]
+19:46:39.851 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved classpath location [com/in28minutes/springboot/] to resources [URL [file:/C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/springboot/]]
+19:46:39.852 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes\springboot]
+19:46:39.852 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes\springboot] for files matching pattern [C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/springboot/*.class]
+19:46:39.853 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved location pattern [classpath*:com/in28minutes/springboot/*.class] to resources []
+19:46:39.853 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved classpath location [com/in28minutes/] to resources [URL [file:/C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/]]
+19:46:39.854 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes]
+19:46:39.854 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com\in28minutes] for files matching pattern [C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/in28minutes/*.class]
+19:46:39.854 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved location pattern [classpath*:com/in28minutes/*.class] to resources []
+19:46:39.856 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved classpath location [com/] to resources [URL [file:/C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/], URL [file:/C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/classes/com/], URL [jar:file:/C:/Users/tomha/.m2/repository/com/fasterxml/classmate/1.3.3/classmate-1.3.3.jar!/com/], URL [jar:file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.8.5/jackson-databind-2.8.5.jar!/com/], URL [jar:file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.8.5/jackson-annotations-2.8.5.jar!/com/], URL [jar:file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.8.5/jackson-core-2.8.5.jar!/com/], URL [jar:file:/C:/Users/tomha/.m2/repository/com/jayway/jsonpath/json-path/2.2.0/json-path-2.2.0.jar!/com/]]
+19:46:39.856 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com]
+19:46:39.857 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\test-classes\com] for files matching pattern [C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/test-classes/com/*.class]
+19:46:39.857 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\classes\com]
+19:46:39.858 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [C:\Users\tomha\OneDrive\Workspace\student-services\spring-boot-first-web-application\target\classes\com] for files matching pattern [C:/Users/tomha/OneDrive/Workspace/student-services/spring-boot-first-web-application/target/classes/com/*.class]
+19:46:39.860 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in jar file [file:/C:/Users/tomha/.m2/repository/com/fasterxml/classmate/1.3.3/classmate-1.3.3.jar]
+19:46:39.861 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in jar file [file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.8.5/jackson-databind-2.8.5.jar]
+19:46:39.865 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in jar file [file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.8.5/jackson-annotations-2.8.5.jar]
+19:46:39.866 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in jar file [file:/C:/Users/tomha/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.8.5/jackson-core-2.8.5.jar]
+19:46:39.867 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in jar file [file:/C:/Users/tomha/.m2/repository/com/jayway/jsonpath/json-path/2.2.0/json-path-2.2.0.jar]
+19:46:39.869 [main] DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved location pattern [classpath*:com/*.class] to resources []
+]]></system-out>
+  </testcase>
+</testsuite>

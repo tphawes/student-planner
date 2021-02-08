@@ -1,0 +1,94 @@
+{
+	"student": [
+		{
+			"name": "John",
+			"id": "1",
+			"dob": "01/01/2005",
+			"status": "Enrolled",
+			"grade": "12",
+			"meetings": [
+				{
+					"date": "02/01/2021",
+					"time": "9:00 AM",
+					"notes": "We discussed graduation"
+				},
+								{
+					"date": "02/01/2021",
+					"time": "10:00 AM",
+					"notes": "We discussed graduationd"
+				},
+				{
+					"date": "02/01/2021",
+					"time": "9:00 AM",
+					"notes": "We discussed graduation"
+				},
+								{
+					"date": "02/01/2021",
+					"time": "10:00 AM",
+					"notes": "We discussed graduationd"
+				},
+				{
+					"date": "02/01/2021",
+					"time": "7:00 AM",
+					"notes": "We discussed graduation"
+				},
+								{
+					"date": "02/01/2021",
+					"time": "12:00 AM",
+					"notes": "We discussed graduationd"
+				},
+				{
+					"date": "02/01/2021",
+					"time": "11:00 AM",
+					"notes": "We discussed graduation"
+				},
+					
+				{
+					"date": "02/01/2021",
+					"time": "11:00 PM",
+					"notes": "We discussed graduation"
+				},
+				{
+					"date": "02/01/2021",
+					"time": "10:00 AM",
+					"notes": "We discussed graduationd"
+				}
+				
+				
+			]
+		},
+		{
+			"name": "Betty",
+			"id": "2",
+			"dob": "01/01/2006",
+			"status": "Enrolled",
+			"grade": "11",
+			"meetings": [
+				{
+					"date": "02/01/2021",
+					"time": "9:30 AM",
+					"notes": "We discussed senior year"
+				}
+			]
+		},
+		{
+			"name": "Sally",
+			"id": "3",
+			"dob": "02/01/2007",
+			"status": "Enrolled",
+			"grade": "10",
+			"meetings": [
+				{
+					"date": "01/01/2021",
+					"time": "10:00 AM",
+					"notes": "We discussed junior year"
+				},
+				{
+					"date": "02/02/2021",
+					"time": "9:00 AM",
+					"notes": "We duscussed career goals"
+				}
+			]
+		}
+	]
+}
