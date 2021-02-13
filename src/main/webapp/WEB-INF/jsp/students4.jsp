@@ -1,7 +1,7 @@
 <html>
 
 <head>
-<link rel="stylesheet" href="mystyle.css">
+<link rel="stylesheet" href="mystyle2.css">
 
 <title>Student Meeting Recorder</title>
 </head>
@@ -10,7 +10,11 @@
 
 
 	Set Calendar Dates:<input type="date" id="dateInput" onChange=setCalendarDates()><br>
-	<button onclick="testFunction()" id="testButton">test button</button>
+	<button onclick="startFunction()" id="startButton">start button</button>
+	
+	<button onclick="loadStudentTable2()" id="testButton">loadStudentTable2</button>
+	<button onclick="loadCalendarTable2()" id="testButton">loadCalendarTable2</button>
+	loadCalendarTable2
 
 	<div id="result"></div>
 	<button onclick="memoryFunction()" id="addButton">Add Student</button>
@@ -55,6 +59,49 @@
 <button onclick="addMeetingFunction()" id="addMeetingButton">Add Meeting</button>
 <button onclick="deleteMeetingFunction()" id="deleteMeetingButton">Delete Meeting</button>
 
+<table class="student_fixed_header" id="student-table2" width="100%">
+	<caption id="HeadersRow">Students with fixed Column Header Row</caption>
+	<thead>
+    	<tr>
+      		<th class="FirstNameCol">First Name</th>
+      		<th class="LastNameCol">Last Name</th>
+			<th class="DOBCol">DOB</th>
+      		<th class="GradeCol">Grade</th>
+      		<th class="StatusCol">Status</th>
+      		<th class="StudentIdCol">ID</th>
+      		<th class="FuntionCol">Function</th>
+    	</tr>
+  	</thead>
+  	<tbody>
+  	</tbody>
+</table>
+
+<table class="meeting_fixed_header" id="calendar-table2" width="100%">
+	<caption id="HeadersRow">Meetings with fixed Column Header Row</caption>
+	<thead>
+    	<tr>
+    		<th></th>
+      		<th>Monday</th>
+			<th>Tuesday</th>
+			<th>Wednesday</th>
+      		<th>Thursday</th>
+      		<th>Friday</th>
+      		<th></th>
+    	</tr>
+    	<tr>
+    		<th>Time</th>
+      		<th id = "WD1">TBD</th>
+			<th id = "WD2">TBD</th>
+			<th id = "WD3">TBD</th>
+      		<th id = "WD4">TBD</th>
+      		<th id = "WD5">TBD</th>
+      		<th>Function</th>
+    	</tr>
+    	
+  	</thead>
+  	<tbody>
+  	</tbody>
+</table>
 
 <h2>Calendar Data</h2>
 	<table id="calendar-table" class="table-layout" style="width: 100%" border='1'>
@@ -79,6 +126,76 @@
 	var studentDataObject;
 	var selectedStudentId, selectedMessageId;
 	var studentKeys = [];
+
+	//This is a test space for any and everything
+	function testFunction()
+	{
+		console.log("test function");
+		loadStudentTable2();
+		//console.log("test function studentDataObject:" + studentDataObject);
+		//console.log("test function selectedStudentObject:" + selectedStudentId);
+		//console.log('Students loaded:' + studentsLoaded() );
+		//console.log('Student selected:' + studentSelected() );
+		//console.log('Student meetings:' + currentStudentHasMeetings() );
+		//console.log('Student meetings:' + JSON.stringify( studentDataObject ) );
+		//var week_number = 0 | new Date().getDate() / 7;
+		//console.log('Week number:' + week_number );
+		//console.log('Week number:' + new Date().getDate() );
+		//console.log('Week number:' + new Date().getDate() /7 );
+		
+		//var currentDate = new Date();
+		//var firstDayOfMonth = new Date( currentDate.getFullYear(), currentDate.getMonth(), 1 );
+		//var firstWeekday = firstDayOfMonth.getDay();
+		//console.log('Week number1:' + currentDate );
+		//console.log('Week number2:' + firstDayOfMonth );
+		//console.log('Week number3:' + firstWeekday );
+		//console.log('Week getDate:' + currentDate.getDate() );
+		//console.log('Week getDay:' + currentDate.getDay() );
+		//var d = new Date(2021, 0, 17);
+		//console.log('Week getDate Object:' + d );
+		//console.log('Week getDate:' + d.getDate() );
+		//console.log('Week getDay:' + d.getDay() );
+		//console.log('Week getDay:' + dateFormatter(new Date()) );
+		//console.log('COMP:' + compareTimes( "9:30 AM", "9:30 PM") );
+		//console.log('COMP:' + compareTimes( "9:30 PM", "9:30 AM") );
+		//console.log('COMP:' + compareTimes( "9:00 AM", "9:30 AM") );
+	}
+
+	function startFunction() {
+		console.log("Start function:");
+		console.log("parsed json file:" + name);
+		studentDataObject = JSON.parse(JSON.stringify(${dataJson}));
+		console.log("parsed json file:" + studentDataObject.students.length);
+	}
+	
+	function loadStudentTable2() {
+		if ( !studentsLoaded()) {
+			console.log('No students!' + studentDataObject);
+			alert("Must add student(s)");
+			return false;
+		}
+		console.log("Load student table:" + studentDataObject.students.length);
+
+		var tbodyRef = document.getElementById("student-table2").getElementsByTagName('tbody')[0];
+		for( var x = 0; x < studentDataObject.students.length; x++)
+		{
+			var y = tbodyRef.insertRow();
+			y.insertCell(0).innerHTML = studentDataObject.students[x].firstName;
+			y.insertCell(1).innerHTML = studentDataObject.students[x].lastName;
+			y.insertCell(2).innerHTML = studentDataObject.students[x].dob;
+			y.insertCell(3).innerHTML = studentDataObject.students[x].grade;
+			y.insertCell(4).innerHTML = studentDataObject.students[x].status;
+			y.insertCell(5).innerHTML = studentDataObject.students[x].id;
+			var id = studentDataObject.students[x].id;
+			var btnTxt = "<button value=\"Delete\" id=\"removeFrom\" onclick=\"deleteRow(" + id + ");\" >Delete</button>"
+			btnTxt += "<button value=\"Update\" id=\"updateTo\" onclick=\"updateRow(" + id + ");\" >Update</button>";
+			btnTxt += "<button value=\"Review\" id=\"reviewStudent\" onclick=\"reviewStudent(" + id + ");\" >Review</button>";
+			y.insertCell(6).innerHTML = btnTxt;
+		}
+	}
+
+	
+	
 	function getDate() 
 	{
 		  var today = new Date();
@@ -126,54 +243,11 @@
 	}
 	
 
-	//This is a test space for any and everything
-	function testFunction()
-	{
-		console.log("test function");
-		//console.log("test function studentDataObject:" + studentDataObject);
-		//console.log("test function selectedStudentObject:" + selectedStudentId);
-		//console.log('Students loaded:' + studentsLoaded() );
-		//console.log('Student selected:' + studentSelected() );
-		//console.log('Student meetings:' + currentStudentHasMeetings() );
-		//console.log('Student meetings:' + JSON.stringify( studentDataObject ) );
-		//var week_number = 0 | new Date().getDate() / 7;
-		//console.log('Week number:' + week_number );
-		//console.log('Week number:' + new Date().getDate() );
-		//console.log('Week number:' + new Date().getDate() /7 );
-		
-		//var currentDate = new Date();
-		//var firstDayOfMonth = new Date( currentDate.getFullYear(), currentDate.getMonth(), 1 );
-		//var firstWeekday = firstDayOfMonth.getDay();
-		//console.log('Week number1:' + currentDate );
-		//console.log('Week number2:' + firstDayOfMonth );
-		//console.log('Week number3:' + firstWeekday );
-		//console.log('Week getDate:' + currentDate.getDate() );
-		//console.log('Week getDay:' + currentDate.getDay() );
-		//var d = new Date(2021, 0, 17);
-		//console.log('Week getDate Object:' + d );
-		//console.log('Week getDate:' + d.getDate() );
-		//console.log('Week getDay:' + d.getDay() );
-		//console.log('Week getDay:' + dateFormatter(new Date()) );
-		//loadCalendarTable();
-		console.log('COMP:' + compareTimes( "9:30 AM", "9:30 PM") );
-		console.log('COMP:' + compareTimes( "9:30 PM", "9:30 AM") );
-		console.log('COMP:' + compareTimes( "9:00 AM", "9:30 AM") );
-
-		//dar();
-
-		//for (i in studentDataObject.students) {
-		//	console.log("The ID:" + studentDataObject.students[i].id + ":" + i);
-		//}
-
-		//console.log('The id of the student is: ' + studentDataObject.students[1].name );
-
-
-	}
 	function dateFormatter()
 	{
 		var dateStr = "p";
 		var dt = arguments[0];
-		console.log('Format Date:' + dt.toDateString());
+		//console.log('Format Date:' + dt.toDateString());
 		var mnth = dt.getMonth() + 1;
 		var dVal = dt.getDate();
 		if( dVal < 10)
@@ -189,27 +263,46 @@
 	function setCalendarDates()
 	{
 		//var dateIn = document.getElementById('dateInput').value;
-		console.log('dateIn:' + document.getElementById('dateInput').value );
+		//console.log('dateIn:' + document.getElementById('dateInput').value );
 		var tmpDate = new Date(document.getElementById('dateInput').value);
 		var dateObject = new Date ( tmpDate.getTime() - tmpDate.getTimezoneOffset() * -60000 );
 		var dateDiff = dateObject.getDate() - dateObject.getDay() + (dateObject.getDay() === 0 ? -6 : 1);
 		var nd1 = new Date(dateObject.setDate(dateDiff));
 		var myTable = document.getElementById('calendar-table');
+		document.getElementById('WD1').innerHTML = dateFormatter(nd1);
 		myTable.rows[1].cells[0].innerHTML = dateFormatter(nd1);//.toDateString();
 		nd1.setDate(nd1.getDate() + 1);
+		document.getElementById('WD2').innerHTML = dateFormatter(nd1);
 		myTable.rows[1].cells[1].innerHTML = dateFormatter(nd1);
 		nd1.setDate(nd1.getDate() + 1); 
+		document.getElementById('WD3').innerHTML = dateFormatter(nd1);
 		myTable.rows[1].cells[2].innerHTML = dateFormatter(nd1);
-		nd1.setDate(nd1.getDate() + 1); 
+		nd1.setDate(nd1.getDate() + 1);
+		document.getElementById('WD4').innerHTML = dateFormatter(nd1);
 		myTable.rows[1].cells[3].innerHTML = dateFormatter(nd1);
-		nd1.setDate(nd1.getDate() + 1); 
+		nd1.setDate(nd1.getDate() + 1);
+		document.getElementById('WD5').innerHTML = dateFormatter(nd1);
 		myTable.rows[1].cells[4].innerHTML = dateFormatter(nd1);
 		if( studentsLoaded() )
-			loadCalendarTable();
+			loadCalendarTable2();
 	}
+	function equalDates()
+	{
+		//console.log('CompareDates:' + arguments[0] + ":" + arguments[1] );
+		var startDt = arguments[0];
+		var endDt = arguments[1];
+		if( arguments.length == 2 )
+		{
+			if( new Date(startDt).getTime() == new Date(endDt).getTime() )
+				return true;
+		}
+		return false;
+		
+	}
+
 	function compareDates()
 	{
-		//console.log('CompareDates:' + arguments.length);
+		//console.log('CompareDates:' + arguments[0] + ":" + arguments[1] );
 		var startDt = arguments[0];
 		var endDt = arguments[1];
 		if( arguments.length == 2 )
@@ -227,17 +320,23 @@
 	    return false;
 		
 	}
-	function loadCalendarTable()
+	function loadCalendarTable2()
 	{
-		var calendarTable = document.getElementById('calendar-table');
-		var startDate = calendarTable.rows.item(1).cells.item(0).innerHTML;
-		var endDate = calendarTable.rows.item(1).cells.item(4).innerHTML;
+		var calendarTable = document.getElementById('calendar-table2');
+		var startDate = calendarTable.rows.item(1).cells.item(1).innerHTML;
+		var endDate = calendarTable.rows.item(1).cells.item(5).innerHTML;
 		console.log("Dates:" + startDate + ":" + endDate );
-		var d0 = calendarTable.rows.item(1).cells.item(0).innerHTML;
-		var d1 = calendarTable.rows.item(1).cells.item(1).innerHTML;
-		var d2 = calendarTable.rows.item(1).cells.item(2).innerHTML;
-		var d3 = calendarTable.rows.item(1).cells.item(3).innerHTML;
-		var d4 = calendarTable.rows.item(1).cells.item(4).innerHTML;
+		var d0 = calendarTable.rows.item(1).cells.item(1).innerHTML;
+		var d1 = calendarTable.rows.item(1).cells.item(2).innerHTML;
+		var d2 = calendarTable.rows.item(1).cells.item(3).innerHTML;
+		var d3 = calendarTable.rows.item(1).cells.item(4).innerHTML;
+		var d4 = calendarTable.rows.item(1).cells.item(5).innerHTML;
+		
+		var weeksMeetings = JSON.stringify({
+			meetings : []
+		});
+		var weeksMeetingObject = JSON.parse( weeksMeetings );
+		
 		var tmpMtgs = JSON.stringify({
 			[d0] : [],
 			[d1] : [],
@@ -249,69 +348,104 @@
 		var meetingObject = JSON.parse( tmpMtgs );
 		console.log("meetingObject:" + meetingObject);
 		console.log("meetingObject:" + meetingObject[d0].length);
+		console.log("Student meetings:" + studentDataObject.meetings.length);
+
 		//alert("Stop");
 
-		for (i in studentDataObject.students) {
+		for (i in studentDataObject.meetings) {
 			//console.log("The ID:" + studentDataObject.students[i].id + ":" + i);
 			//console.log("Has Meeetings:" + aStudentHasMeetings(studentDataObject.students[i]) );
-			if( aStudentHasMeetings(studentDataObject.students[i]) )
 			{
-				var date, name, time;
-				for (var r = 0; r < studentDataObject.students[i].meetings.length; r++) 
+				date = studentDataObject.meetings[i].date
+				time = studentDataObject.meetings[i].time
+				//Check the date before adding
+				//console.log("CMP:" + startDate + ":" + endDate + ":" + date);
+				//return;
+				if(compareDates( startDate, endDate, date))
 				{
-					name = studentDataObject.students[i].name;
-					date = studentDataObject.students[i].meetings[r].date
-					time = studentDataObject.students[i].meetings[r].time
-					//Check the date before adding
-					if(compareDates( startDate, endDate, date))
-					{
-						var tmpMeeting = JSON.stringify({
-							"date" : date,
-							"studentName" : name,
-							"time" : time,
-						});
-						console.log("JSON:" + tmpMeeting);
-						meetingObject[date].push(JSON.parse(tmpMeeting));
-					}
+					console.log("Adding:" + date + ":" + time + ":" + weeksMeetingObject.meetings.length);
+					weeksMeetingObject.meetings.push(studentDataObject.meetings[i]);
+					var tmpMeeting = JSON.stringify({
+						"date" : date,
+						"time" : time,
+					});
+					console.log("JSON:" + tmpMeeting + ":" + date);
+					meetingObject[date].push(JSON.parse(tmpMeeting));
 				}
 			}
 		}
+		console.log("weeksMeetings:" + weeksMeetingObject.meetings.length);
+
 		console.log("meetingObject0:" + meetingObject[d0].length);
 		console.log("meetingObject1:" + meetingObject[d1].length);
 		console.log("meetingObject2:" + meetingObject[d2].length);
 		console.log("meetingObject3:" + meetingObject[d3].length);
 		console.log("meetingObject4:" + meetingObject[d4].length);
-		
 		//alert("Stop2");
 		var maxCt = Math.max( meetingObject[d0].length, meetingObject[d1].length, meetingObject[d2].length, 
 				meetingObject[d3].length, meetingObject[d4].length );
 		console.log("maxCt:" + maxCt);
 		//Need to add rows to table
-		var currentLength = document.getElementById("calendar-table").rows.length;
+		var currentLength = document.getElementById("calendar-table2").rows.length;
 		console.log("currentLength:" + currentLength );
 		for ( x = currentLength; x > 2; x-- ) 
 		{
 			console.log("Delete row:" + (x - 1) );
 			calendarTable.deleteRow( x - 1);
 		}
-		currentLength = document.getElementById("calendar-table").rows.length;
+		
+		currentLength = document.getElementById("calendar-table2").rows.length;
 		//alert("Stop3");
-		sortMeetingObject(meetingObject[d0]);
-		for( var x = currentLength; x < maxCt + currentLength; x++ )
+
+		//Need to go from 8 to 16
+		var timeSlots = 38;
+		for( var x = currentLength; x < timeSlots; x++ )
 		{
-			console.log("Adding row:" + x );
+			//console.log("Adding row:" + x );
 			var newRow = calendarTable.insertRow(x);
-			for( var z = 0; z < 5; z++)
+			for( var z = 0; z < 7; z++)
 			{
 				newRow.insertCell(z);
 			}
-			insertCalendarCells( x, meetingObject[d0], 0, calendarTable, currentLength);
-			insertCalendarCells( x, meetingObject[d1], 1, calendarTable, currentLength);
-			insertCalendarCells( x, meetingObject[d2], 2, calendarTable, currentLength);
-			insertCalendarCells( x, meetingObject[d3], 3, calendarTable, currentLength);
-			insertCalendarCells( x, meetingObject[d4], 4, calendarTable, currentLength);
+			var newText = (z + 8)
+			calendarTable.rows[x].cells[0].innerHTML = newText;
+
 		}
+		var hrSegs = [ "00", "15", "30", "45"];
+		var mVal = " AM";
+		var timeText = "09:00 AM";
+		var hrVal = 8;
+		for( var x = currentLength; x < timeSlots; x++ )
+		{
+			//console.log("Adding time:" + x );
+			for( var y = 0; y < 4; y++ )
+			{
+				if( hrVal == 12)
+				{
+					mVal = " PM";
+				}
+				if( hrVal == 13)
+				{
+					hrVal = 1;
+				}
+				if( hrVal < 10)
+					timeText = "0" + hrVal + ":" + hrSegs[y] +  mVal;
+				else
+					timeText = hrVal + ":" + hrSegs[y] +  mVal;
+				//console.log("Adding time:" + x + ":" + y  + ":" + hrVal);
+				calendarTable.rows[x+y].cells[0].innerHTML = timeText;
+			}
+			x = x + 3;
+			hrVal++;
+		}
+		insertCalendarCells2( meetingObject[d0], 1, calendarTable, currentLength, timeSlots);
+		//insertCalendarCells( meetingObject[d1], 2, calendarTable, currentLength, timeSlots);
+		//insertCalendarCells( meetingObject[d2], 3, calendarTable, currentLength, timeSlots);
+		//insertCalendarCells( meetingObject[d3], 4, calendarTable, currentLength, timeSlots);
+		//insertCalendarCells( meetingObject[d4], 5, calendarTable, currentLength, timeSlots);
+
 	}
+
 	//Returns true is t1 is less than t2
 	function compareTimes()
 	{
@@ -441,7 +575,53 @@
 
 		}
 	}
+	function insertCalendarCells2()
+	{//insertCalendarCells( meetingObject[d0], 0, calendarTable, currentLength, timeSlots);
+	//		insertCalendarCells2( meetingObject[d0], 0, calendarTable, currentLength, timeSlots);
 
+		var aMeetingObject = arguments[0];
+		var columnIndex = arguments[1];
+		var calendarTable = arguments[2];
+		var currentLength = arguments[3];
+		var timeSlots = arguments[4];
+		console.log("Insert Meeting data for row:" + columnIndex + ":" + aMeetingObject.length );
+		for( var x = currentLength; x < timeSlots; x++ )
+		{
+			//First what is the time slot
+			var slotVal = calendarTable.rows[x].cells[0].innerHTML;
+			//console.log("Slot:" + ":" + slotVal);
+			var id = aMeetingObject.find( record => record.time === slotVal);
+			if (typeof id !== "undefined")
+			{
+				console.log("Found Slot:" + ":" + id.time);
+				console.log("Found Slot:" + ":" + id.studentId);
+				var studentM = studentDataObject.students.find( record => record.id === Number(id.studentId));
+				console.log("Found Student:" + ":" + studentM.lastName);
+				calendarTable.rows[x].cells[columnIndex].innerHTML = studentM.lastName;
+			}
+				
+
+			
+			
+			//for( var y = 0; y < aMeetingObject.length; y++ )
+			//{
+			//	var meeting = aMeetingObject[y];
+			//	var newText = aMeetingObject[y].date + ":" + aMeetingObject[y].time;
+			//	var slotVal = calendarTable.rows[x].cells[0].innerHTML;
+			//	var tVal = aMeetingObject[y].time;
+			//	console.log("Slot val!!!:" + slotVal + ":" + tVal + ":" + slotVal.localeCompare(tVal) );
+			//	if( slotVal.localeCompare(tVal) == 0 )
+			//	{
+			//		console.log("Slot val!!!:" + slotVal + ":" + tVal + ":");
+			//		calendarTable.rows[x].cells[columnIndex].innerHTML = "filled";
+			//	}
+			//	console.log("Slotted");
+			//}
+			
+		}
+	}
+
+	
 	function handleFileSelect(evt) {
 		console.log("handle a file");
 		var files = evt.target.files; // FileList object
@@ -454,7 +634,7 @@
 				//parseJSONFile(fr.result);
 				studentDataObject = JSON.parse(fr.result);
 				console.log("parsed json file:");
-				loadStudentTable();
+				//loadStudentTable();
 			}
 			fr.readAsText(f);
 		}
@@ -499,7 +679,6 @@
 			}
 		}
 		highlight_student_row();
-		loadCalendarTable();
 	}
 
 	function highlight_student_row() {
@@ -627,7 +806,6 @@
 			}
 			highlight_meeting_row();
 		}
-		loadCalendarTable();
 	}
 
 	function deleteStudentFunction() {

@@ -1,0 +1,62 @@
+.student_fixed_header{
+	width=100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+.student_fixed_header tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 120px;
+}
+
+.student_fixed_header thead tr {
+   display: block;
+}
+
+.student_fixed_header thead {
+  background: gray;
+  color:#fff;
+}
+
+.student_fixed_header th, .student_fixed_header td {
+  width: 200px;
+  border: 1px solid black;
+  text-align: left;
+  padding: 6px;
+  border-collapse: collapse;
+}
+
+.meeting_fixed_header{
+	width=100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+.meeting_fixed_header tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 120px;
+}
+
+.meeting_fixed_header thead tr {
+   display: block;
+}
+
+.meeting_fixed_header thead {
+  background: gray;
+  color:#fff;
+}
+
+.meeting_fixed_header th, .meeting_fixed_header td {
+  width: 200px;
+  border: 1px solid black;
+  text-align: left;
+  padding: 6px;
+  border-collapse: collapse;
+}
+
