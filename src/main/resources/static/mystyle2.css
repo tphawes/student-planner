@@ -64,7 +64,6 @@ td, th {
 
 
 .student_fixed_header{
-	width=100%;
     table-layout: fixed;
     border-collapse: collapse;
     border: 1px solid black;
@@ -95,7 +94,6 @@ td, th {
 }
 
 .meeting_fixed_header{
-	width=100%;
     table-layout: fixed;
     border-collapse: collapse;
     border: 1px solid black;

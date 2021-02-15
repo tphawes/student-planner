@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
@@ -89,7 +91,10 @@ public class TestJStudents {
             			aDate = getDate(rand, x);
                 		aTime = getTime(rand);
             		}
-            		Meeting aMeeting = new Meeting(meetingId++, aStudent.getId(), "AD", "We met", aDate, aTime);
+            		List <String> list = new ArrayList <String>();
+            		list.add("1");
+            		list.add("2");
+            		Meeting aMeeting = new Meeting(meetingId++, aStudent.getId(), "AD", "We met", aDate, aTime, 1, list);
             		meetingArray.add(aMeeting.toJSON());
             		meetingTimes.add(aDate + aTime);
             		//System.out.println("Meeting:" + aMeeting.toJSON().toString() );
@@ -103,7 +108,7 @@ public class TestJStudents {
 		obj.put("meetings", meetingArray);
 		JSONArray area = (JSONArray) obj.get("students");
 		System.out.println("Students:" + area.size() );
-		String fileName = "C:\\Users\\tomha\\git\\student-planner\\data.json";
+		String fileName = "C:\\Users\\tomha\\git\\student-planner\\data2.json";
 		MyFileTool.writeToFile(fileName, obj.toString());
 
 		assertTrue(true);

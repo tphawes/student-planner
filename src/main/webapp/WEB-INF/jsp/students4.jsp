@@ -46,7 +46,7 @@
 <button onclick="deleteStudentFunction()" id="deleteStudentButton">Delete Student</button>
 
 <h2>Meeting Data</h2>
-	<table id="meeting-table" class="table-layout" style="width: 100%" border='1'>
+	<table id="meeting-table" class="gr" style="width: 100%" border='1'>
 	</table>
 	<form id="meetingInputForm" onSubmit="addMeeting(); return false;" hidden>
 		Date : <input type="text" name="date" id="inputDate" value="01/01/2021"/><br>
@@ -76,7 +76,7 @@
   	</tbody>
 </table>
 
-<table class="meeting_fixed_header" id="calendar-table2" width="100%">
+<table class="gt" id="calendar-table2" width="100%">
 	<caption id="HeadersRow">Meetings with fixed Column Header Row</caption>
 	<thead>
     	<tr>
@@ -166,6 +166,8 @@
 		console.log("parsed json file:" + name);
 		studentDataObject = JSON.parse(JSON.stringify(${dataJson}));
 		console.log("parsed json file:" + studentDataObject.students.length);
+		loadStudentTable2();
+		loadCalendarTable2()
 	}
 	
 	function loadStudentTable2() {
@@ -336,55 +338,41 @@
 			meetings : []
 		});
 		var weeksMeetingObject = JSON.parse( weeksMeetings );
-		
-		var tmpMtgs = JSON.stringify({
-			[d0] : [],
-			[d1] : [],
-			[d2] : [],
-			[d3] : [],
-			[d4] : []
+
+		var dateStrings = JSON.stringify({
+			dates : []
 		});
-		console.log("tmpMtgs:!!!" + tmpMtgs );
-		var meetingObject = JSON.parse( tmpMtgs );
-		console.log("meetingObject:" + meetingObject);
-		console.log("meetingObject:" + meetingObject[d0].length);
+		var dateStringsObject = JSON.parse( dateStrings );
+		for( var x = 0; x < 5; x++)
+		{
+			dateStringsObject.dates.push(calendarTable.rows.item(1).cells.item(x +1).innerHTML);
+		}
+		
+		var dateStrings = [
+			calendarTable.rows.item(1).cells.item(1).innerHTML,
+			calendarTable.rows.item(1).cells.item(2).innerHTML,
+			calendarTable.rows.item(1).cells.item(3).innerHTML,
+			calendarTable.rows.item(1).cells.item(4).innerHTML,
+			calendarTable.rows.item(1).cells.item(5).innerHTML];
+		
+
 		console.log("Student meetings:" + studentDataObject.meetings.length);
 
 		//alert("Stop");
-
+		//Now get the meetings that apply to the date range
 		for (i in studentDataObject.meetings) {
-			//console.log("The ID:" + studentDataObject.students[i].id + ":" + i);
-			//console.log("Has Meeetings:" + aStudentHasMeetings(studentDataObject.students[i]) );
 			{
 				date = studentDataObject.meetings[i].date
 				time = studentDataObject.meetings[i].time
 				//Check the date before adding
-				//console.log("CMP:" + startDate + ":" + endDate + ":" + date);
-				//return;
 				if(compareDates( startDate, endDate, date))
 				{
 					console.log("Adding:" + date + ":" + time + ":" + weeksMeetingObject.meetings.length);
 					weeksMeetingObject.meetings.push(studentDataObject.meetings[i]);
-					var tmpMeeting = JSON.stringify({
-						"date" : date,
-						"time" : time,
-					});
-					console.log("JSON:" + tmpMeeting + ":" + date);
-					meetingObject[date].push(JSON.parse(tmpMeeting));
 				}
 			}
 		}
 		console.log("weeksMeetings:" + weeksMeetingObject.meetings.length);
-
-		console.log("meetingObject0:" + meetingObject[d0].length);
-		console.log("meetingObject1:" + meetingObject[d1].length);
-		console.log("meetingObject2:" + meetingObject[d2].length);
-		console.log("meetingObject3:" + meetingObject[d3].length);
-		console.log("meetingObject4:" + meetingObject[d4].length);
-		//alert("Stop2");
-		var maxCt = Math.max( meetingObject[d0].length, meetingObject[d1].length, meetingObject[d2].length, 
-				meetingObject[d3].length, meetingObject[d4].length );
-		console.log("maxCt:" + maxCt);
 		//Need to add rows to table
 		var currentLength = document.getElementById("calendar-table2").rows.length;
 		console.log("currentLength:" + currentLength );
@@ -395,55 +383,68 @@
 		}
 		
 		currentLength = document.getElementById("calendar-table2").rows.length;
-		//alert("Stop3");
-
+		console.log("currentLength:" + currentLength );
+		//return;
 		//Need to go from 8 to 16
 		var timeSlots = 38;
-		for( var x = currentLength; x < timeSlots; x++ )
+		for( var x = 8; x < 17; x++ )
 		{
-			//console.log("Adding row:" + x );
-			var newRow = calendarTable.insertRow(x);
-			for( var z = 0; z < 7; z++)
+			var amVal = " AM";
+			var pmVal = " PM";
+			var timeText = "09:00 AM";
+			var hrVal = x;
+			if( hrVal > 12 )
+				hrVal = x - 12;
+			if( hrVal < 10 )
+				hrVal = "0" + hrVal;
+			//console.log("Adding row:" + x + ":" + hrVal);
+			var hrSegs = [ "00", "15", "30", "45"];
+			for( var y = 0; y < hrSegs.length; y++ )
 			{
-				newRow.insertCell(z);
-			}
-			var newText = (z + 8)
-			calendarTable.rows[x].cells[0].innerHTML = newText;
-
-		}
-		var hrSegs = [ "00", "15", "30", "45"];
-		var mVal = " AM";
-		var timeText = "09:00 AM";
-		var hrVal = 8;
-		for( var x = currentLength; x < timeSlots; x++ )
-		{
-			//console.log("Adding time:" + x );
-			for( var y = 0; y < 4; y++ )
-			{
-				if( hrVal == 12)
-				{
-					mVal = " PM";
-				}
-				if( hrVal == 13)
-				{
-					hrVal = 1;
-				}
-				if( hrVal < 10)
-					timeText = "0" + hrVal + ":" + hrSegs[y] +  mVal;
+				var tVal = "";
+				if( x >= 12 )
+					timeValueMatch = hrVal + ":" + hrSegs[y] + pmVal;
 				else
-					timeText = hrVal + ":" + hrSegs[y] +  mVal;
-				//console.log("Adding time:" + x + ":" + y  + ":" + hrVal);
-				calendarTable.rows[x+y].cells[0].innerHTML = timeText;
-			}
-			x = x + 3;
-			hrVal++;
-		}
-		insertCalendarCells2( meetingObject[d0], 1, calendarTable, currentLength, timeSlots);
-		//insertCalendarCells( meetingObject[d1], 2, calendarTable, currentLength, timeSlots);
-		//insertCalendarCells( meetingObject[d2], 3, calendarTable, currentLength, timeSlots);
-		//insertCalendarCells( meetingObject[d3], 4, calendarTable, currentLength, timeSlots);
-		//insertCalendarCells( meetingObject[d4], 5, calendarTable, currentLength, timeSlots);
+					timeValueMatch = hrVal + ":" + hrSegs[y] + amVal;
+				//console.log("Adding row:" + x + ":" + timeValueMatch);
+				var newRow = calendarTable.insertRow(-1);//Add row
+				var newCell = newRow.insertCell(0);//Add cell for time 
+				newCell.innerHTML = timeValueMatch;
+				//Now add cells for the rest of columns 
+				for( var z = 1; z < 6; z++)
+					var newCell = newRow.insertCell(z);
+					
+				var id = weeksMeetingObject.meetings.find( record => record.time === timeValueMatch);
+				while (typeof id !== "undefined")
+				{	
+					//Load row
+					{
+						var studentMatch = studentDataObject.students.find( record => record.id === Number(id.studentId));
 
+						var dtIndex = dateStrings.indexOf(id.date) + 1;
+						console.log('Match?' + id.time + ":" + id.date + ":" + timeValueMatch + ":" + dtIndex + ":" + studentMatch.lastName);
+						//calendarTable.rows[2].cells[1].rowSpan=2;
+						newRow.cells[dtIndex].innerHTML = "BIG";
+
+					}
+					removeNode( weeksMeetingObject, id.id);
+					id = weeksMeetingObject.meetings.find( record => record.time === timeValueMatch);
+				//	return;
+				}
+
+			}//For each 15 minute period
+			
+			//var newRow = calendarTable.insertRow(x);
+			//for( var z = 0; z < 7; z++)
+			//{
+			//	newRow.insertCell(z);
+			//}
+			//var newText = (z + 8)
+			//calendarTable.rows[x].cells[0].innerHTML = newText;
+
+		}//For each hour
+		console.log("weeksMeetings:" + weeksMeetingObject.meetings.length);
+		return;
 	}
 
 	//Returns true is t1 is less than t2
@@ -481,99 +482,54 @@
 		return n1;
 	}
 
-	function sortMeetingObject()
-	{
-		var aMeetingObject = arguments[0];
-		var activities = [];
-		for( var x = 0; x < aMeetingObject.length; x++ )
-		{
-			console.log("Sort LEN:" + aMeetingObject.length );
-			console.log('aMeetingObject:' + JSON.stringify( aMeetingObject ) );
-			console.log('aMeetingObject:' + aMeetingObject[x].time );
-			activities.push([calculateTime(aMeetingObject[x].time), aMeetingObject[x].time, aMeetingObject[x].date, aMeetingObject[x].studentName]);
-		}
-		console.log('activities:::::::' + activities.length );
-		console.log('activities:::::::' + activities[0] );
-		activities = bubbleSort(activities);
-		console.log('activities:::::::' + activities.length );
-		for( var x = 0; x < activities.length; x++ )
-		{
-			console.log("Sorted -----:" + activities[x][0] );
-		}
-		console.log("Sort LEN:" + aMeetingObject.length );
-		while(aMeetingObject.length > 0)
-		{
-			aMeetingObject.pop();
-		}
-		for( var x = 0; x < activities.length; x++ )
-		{
-			var tmpMeeting = JSON.stringify({
-				"date" : activities[x][2],
-				"studentName" : activities[x][3],
-				"time" : activities[x][1],
-			});
-			console.log("JSON:" + tmpMeeting);
-			aMeetingObject.push(JSON.parse(tmpMeeting));
-		}
-		console.log("Sort LEN:" + aMeetingObject.length );
-	}
-	function bubbleSort()
-	{
-		var meetingArray = arguments[0];
-		if( meetingArray.length == 1)
-			return meetingArray;
-		var sortComplete = 1;
-		while( sortComplete >= 1 )
-		{
-			console.log('Begin:' + meetingArray.length)
-			sortComplete = 0;
-			for( var x = 0; x < meetingArray.length; x++ )
-			{
-				if( x >= meetingArray.length - 1)
-				{
-					console.log('BREAK');
-					continue;
-				}
-				console.log('BBL:::::::' + meetingArray[x][0] + ":" + meetingArray[x + 1][0]);
-				if( meetingArray[x][0] > meetingArray[x + 1][0])
-				{
-					var obj1 = meetingArray[x];
-					var obj2 = meetingArray[x + 1];
-					meetingArray[x] = obj2;
-					meetingArray[x+1] = obj1;
-					console.log('SWAP:::::::' + meetingArray[x][0] + ":" + meetingArray[x + 1][0] );
-					sortComplete = 1;
-				}
-			}
-			console.log('BBL2:' + sortComplete);
-		}//End while
-		console.log('BBL3:' + sortComplete);
-		return meetingArray;
-	}
+	
+	//Need column index
+	//Meetings object
+	//Calendar Table
 	function insertCalendarCells()
 	{
-		var rowIndex = arguments[0];
+		var cellIndex = arguments[0];
 		var aMeetingObject = arguments[1];
-		var cellIndex = arguments[2];
-		var calendarTable = arguments[3];
-		var objectIndex = rowIndex - arguments[4];
-		console.log("Insert Meeting data for row:" + rowIndex + ":" + cellIndex + ":" + aMeetingObject.length );
-		if( aMeetingObject.length > objectIndex)
+		var calendarTable = arguments[2];
+		var dateMatchValue = arguments[3];
+		var rowCount = calendarTable.rows.length;
+		console.log('Table Ct:' + rowCount);
+		for( var x = 2; x < rowCount; x++ )
 		{
-			//console.log("Insert Meeting data for row:" + rowIndex + ":" + cellIndex + ":" + aMeetingObject.length );
-			//console.log('aMeetingObject:' + JSON.stringify( aMeetingObject ) );
+			//console.log('Table Ct:' + x);
+			var timeValueMatch = calendarTable.rows[x].cells[0].innerHTML
+			//console.log('Table Ct:' + timeValueMatch + ":" + dateMatchValue)
+			var id = aMeetingObject.meetings.find( record => record.time === timeValueMatch);
+			if (typeof id !== "undefined")
+			{	
+				//console.log('Match?' + id.date + ":" + dateMatchValue);
+				
+				if( id.date == dateMatchValue)
+					console.log('Match!!!' + id.time + ":" + id.date + ":" + id.id + ":" + id.studentId);
+				var studentMatch = studentDataObject.students.find( record => record.id === Number(id.studentId));
+				if (typeof studentMatch !== "undefined")
+				{
+					removeNode( aMeetingObject, id.id);
+					var newText = studentMatch.lastName + "|" + id.code;
+					var cell = calendarTable.rows[x].cells[cellIndex];
+					cell.rowSpan = "2";
+					cell.innerHTML = newText;
+					console.log('SPAN!!!' + cell.rowSpan );
+					//document.getElementById("myTd").rowSpan = "1";
+				}
+			}
 
-			//alert("Stop4");
-			var newText = aMeetingObject[objectIndex].time + ":" + aMeetingObject[objectIndex].studentName;
-			//alert("Stop5" + newText);
-			//newRow.insertCell(cellIndex -1);
-			//var y = newRow.insertCell(cellIndex);
-			//alert("Stop6");
-			calendarTable.rows[rowIndex].cells[cellIndex].innerHTML = newText;
-			//cell.innerHTML = newText;
-			//alert("Stop7");
+			//console.log('Meetings:' + aMeetingObject.meetings.length);
+			//var newText = aMeetingObject[objectIndex].time + ":" + aMeetingObject[objectIndex].studentName;
 
 		}
+	}
+	function removeNode( data, id){
+		data.meetings.forEach(function(e, index){
+	    if(id == e.id){
+	    	data.meetings.splice(index, 1);
+	    }
+	  })
 	}
 	function insertCalendarCells2()
 	{//insertCalendarCells( meetingObject[d0], 0, calendarTable, currentLength, timeSlots);

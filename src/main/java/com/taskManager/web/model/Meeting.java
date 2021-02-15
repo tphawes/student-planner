@@ -1,5 +1,9 @@
 package com.taskManager.web.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class Meeting {
@@ -9,7 +13,9 @@ public class Meeting {
 	private String notes;
 	private String date;
 	private String time;
-	public Meeting(int id, int studentId, String code, String notes, String date, String time) {
+	private int timePeriods;//The number of 15 minute increments
+	private List <String> studentList = new ArrayList <String>();
+	public Meeting(int id, int studentId, String code, String notes, String date, String time, int timePeriods, List<String> studentList ) {
 		super();
 		this.id = id;
 		this.studentId = studentId;
@@ -17,6 +23,8 @@ public class Meeting {
 		this.notes = notes;
 		this.date = date;
 		this.time = time;
+		this.timePeriods = timePeriods;
+		this.studentList = studentList;
 	}
 	public int getId() {
 		return id;
@@ -62,6 +70,12 @@ public class Meeting {
         obj.put("notes",this.notes);
         obj.put("date",this.date);
         obj.put("time",this.time);
+        obj.put("timePeriods",this.timePeriods);
+        JSONArray array = new JSONArray();
+        for (int i = 0; i < this.studentList.size(); i++) {
+                array.add(studentList.get(i));
+        }
+        obj.put("studentIDs", array);
         return obj;
     }
 }
