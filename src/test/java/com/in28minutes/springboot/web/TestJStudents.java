@@ -36,8 +36,8 @@ public class TestJStudents {
 	@Test
 	public void test() {
 		//MyFileReader fr = new MyFileReader();
-		String inFile = "C:\\Users\\tomha\\Documents\\studentsfirst.csv";
-		String inFile2 = "C:\\Users\\tomha\\Documents\\studentslast.csv";
+		String inFile = "C:\\Users\\tomha\\git\\student-planner\\studentsfirst.csv";
+		String inFile2 = "C:\\Users\\tomha\\git\\student-planner\\studentslast.csv";
 
 		//String inFile = fr.readFile("C:\\Users\\tomha\\git\\student-planner\\D1.txt");
 		Vector<String> firstNames =  MyFileTool.readFile2(inFile);
@@ -47,6 +47,8 @@ public class TestJStudents {
 		System.out.println("ST:" + lastNames.size());
 		int vLength = lastNames.size();
 		String son[] = { "son", "man", "berg", "stein", "er" };
+		String codes[] = { "SST", "504", "Admin", "Scheduling", "Other" };
+
         for(int index = 0; index < vLength; index++) {
             //System.out.println(lastNames.get(index));
             for(int x = 0; x < son.length; x++) {
@@ -91,10 +93,24 @@ public class TestJStudents {
             			aDate = getDate(rand, x);
                 		aTime = getTime(rand);
             		}
-            		List <String> list = new ArrayList <String>();
-            		list.add("1");
-            		list.add("2");
-            		Meeting aMeeting = new Meeting(meetingId++, aStudent.getId(), "AD", "We met", aDate, aTime, 1, list);
+            		List <Integer> list = new ArrayList <Integer>();
+            		List <String> adminList = new ArrayList <String>();
+
+            		//list.add("2");
+            		int tmPds = rand.nextInt(2) + 1;
+            		String codeVal = codes[rand.nextInt(5)];
+            		if(codeVal.equals("Admin"))
+            		{
+            			adminList.add("Malcolm");
+            		}
+
+            		if(codeVal.equals("504") || codeVal.equals("Scheduling"))
+            		{
+                		list.add(aStudent.getId());
+                		if( rand.nextInt(5) >= 4 )
+                			list.add(aStudent.getId()+1);
+            		}
+            		Meeting aMeeting = new Meeting(meetingId++, aStudent.getId(), codeVal, "We met", aDate, aTime, tmPds, list, adminList);
             		meetingArray.add(aMeeting.toJSON());
             		meetingTimes.add(aDate + aTime);
             		//System.out.println("Meeting:" + aMeeting.toJSON().toString() );

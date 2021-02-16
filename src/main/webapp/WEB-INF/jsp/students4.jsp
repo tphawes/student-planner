@@ -161,6 +161,7 @@
 		//console.log('COMP:' + compareTimes( "9:00 AM", "9:30 AM") );
 	}
 
+	startFunction();
 	function startFunction() {
 		console.log("Start function:");
 		console.log("parsed json file:" + name);
@@ -419,33 +420,77 @@
 				{	
 					//Load row
 					{
-						var studentMatch = studentDataObject.students.find( record => record.id === Number(id.studentId));
+						id.studentIDs.length
+						
 
 						var dtIndex = dateStrings.indexOf(id.date) + 1;
-						console.log('Match?' + id.time + ":" + id.date + ":" + timeValueMatch + ":" + dtIndex + ":" + studentMatch.lastName);
+						var studentNameStr = id.code + ":";
+						for(var z = 0; z < id.studentIDs.length; z++)
+						{
+							var studentMatch = studentDataObject.students.find( record => record.id === Number(id.studentIDs[z]));
+							studentNameStr += studentMatch.lastName + ":";
+						}
+						for(var z = 0; z < id.adminList.length; z++)
+						{
+							studentNameStr += id.adminList[z];
+						}
+
+						console.log('Match?' + id.time + ":" + id.date + ":" + timeValueMatch + ":" + dtIndex + ":" + studentNameStr + ":" + id.studentIDs.length);
 						//calendarTable.rows[2].cells[1].rowSpan=2;
-						newRow.cells[dtIndex].innerHTML = "BIG";
+						newRow.cells[dtIndex].rowSpan=id.timePeriods;
+						newRow.cells[dtIndex].innerHTML = studentNameStr;
 
 					}
 					removeNode( weeksMeetingObject, id.id);
 					id = weeksMeetingObject.meetings.find( record => record.time === timeValueMatch);
-				//	return;
 				}
-
 			}//For each 15 minute period
-			
-			//var newRow = calendarTable.insertRow(x);
-			//for( var z = 0; z < 7; z++)
-			//{
-			//	newRow.insertCell(z);
-			//}
-			//var newText = (z + 8)
-			//calendarTable.rows[x].cells[0].innerHTML = newText;
-
 		}//For each hour
 		console.log("weeksMeetings:" + weeksMeetingObject.meetings.length);
+		highlight_calendar_row()
 		return;
 	}
+	
+	function highlight_calendar_row() {
+		var table = document.getElementById('calendar-table2');
+		var cells = table.getElementsByTagName('td');
+		for (var i = 0; i < cells.length; i++) {
+			// Take each cell
+			var cell = cells[i];
+			// do something on onclick event for cell
+			cell.onclick = function() {
+				// Get the row id where the cell exists
+				var rowId = this.parentNode.rowIndex;
+				var cellId = this.cellIndex;
+				console.log('Selected rowId: ' + rowId + ":" + cellId);
+				if (rowId == 0) {
+					var rowsNotSelected = table.getElementsByTagName('tr');
+					for (var row = 0; row < rowsNotSelected.length; row++) {
+						console.log('clean1');
+						rowsNotSelected[row].style.backgroundColor = "";
+						rowsNotSelected[row].classList.remove('selected');
+					}
+				} else {
+					var rowsNotSelected = table.getElementsByTagName('tr');
+					for (var row = 0; row < rowsNotSelected.length; row++) {
+						console.log('clean2');
+						var cellLength = table.rows[row].cells.length;
+						for (var cell = 0; cell < cellLength; cell++) {
+							var cellNotSelected = table.rows.item(row).cells.item(cell);
+							cellNotSelected.style.backgroundColor = "";
+							cellNotSelected.classList.remove('selected');
+						}
+					}
+					//calendarTable.rows.item(1).cells.item(5).innerHTML];
+					var cellSelected = table.rows.item(rowId).cells.item(cellId);
+					cellSelected.style.backgroundColor = "yellow";
+					cellSelected.className += " selected";
+					//loadMeetingTable();
+				}
+			}
+		}
+	}
+
 
 	//Returns true is t1 is less than t2
 	function compareTimes()

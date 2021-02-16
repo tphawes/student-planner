@@ -27,7 +27,7 @@ public class StudentController {
 	@RequestMapping(value="/students", method = RequestMethod.GET)
 	public String showStudentPage(ModelMap model){
 		List<Student> studentList = service.retrieveStudents();
-		String fileName = "C:\\Users\\tomha\\git\\student-planner\\data.json";
+		String fileName = "C:\\Users\\tomha\\git\\student-planner\\data2.json";
 		String jsonStr = MyFileTool.readFile(fileName);
 		
 		System.out.println("Student list size:" + studentList.size());

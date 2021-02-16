@@ -14,8 +14,9 @@ public class Meeting {
 	private String date;
 	private String time;
 	private int timePeriods;//The number of 15 minute increments
-	private List <String> studentList = new ArrayList <String>();
-	public Meeting(int id, int studentId, String code, String notes, String date, String time, int timePeriods, List<String> studentList ) {
+	private List <Integer> studentList = new ArrayList <Integer>();
+	private List <String> adminList = new ArrayList <String>();
+	public Meeting(int id, int studentId, String code, String notes, String date, String time, int timePeriods, List<Integer> studentList, List<String> adminList ) {
 		super();
 		this.id = id;
 		this.studentId = studentId;
@@ -25,6 +26,7 @@ public class Meeting {
 		this.time = time;
 		this.timePeriods = timePeriods;
 		this.studentList = studentList;
+		this.adminList = adminList;
 	}
 	public int getId() {
 		return id;
@@ -76,6 +78,12 @@ public class Meeting {
                 array.add(studentList.get(i));
         }
         obj.put("studentIDs", array);
+        array = new JSONArray();
+        for (int i = 0; i < this.adminList.size(); i++) {
+                array.add(adminList.get(i));
+        }
+        obj.put("adminList", array);
+
         return obj;
     }
 }

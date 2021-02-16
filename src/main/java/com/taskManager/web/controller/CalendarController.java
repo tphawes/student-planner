@@ -27,7 +27,7 @@ public class CalendarController {
 	@RequestMapping(value="/cal", method = RequestMethod.GET)
 	public String showStudentPage(ModelMap model){
 
-		String fileName = "C:\\Users\\tomha\\git\\student-planner\\data.json";
+		String fileName = "C:\\Users\\tomha\\git\\student-planner\\data2.json";
 		String jsonStr = MyFileTool.readFile(fileName);
 		JSONObject json = null;
 		JSONParser parser = new JSONParser();
