@@ -126,39 +126,16 @@
 	var studentDataObject;
 	var selectedStudentId, selectedMessageId;
 	var studentKeys = [];
+	var selectedMeetingId = null;
+	var meetingMapObject = JSON.parse(JSON.stringify({
+		"meetings" : []
+	}));
 
 	//This is a test space for any and everything
 	function testFunction()
 	{
 		console.log("test function");
 		loadStudentTable2();
-		//console.log("test function studentDataObject:" + studentDataObject);
-		//console.log("test function selectedStudentObject:" + selectedStudentId);
-		//console.log('Students loaded:' + studentsLoaded() );
-		//console.log('Student selected:' + studentSelected() );
-		//console.log('Student meetings:' + currentStudentHasMeetings() );
-		//console.log('Student meetings:' + JSON.stringify( studentDataObject ) );
-		//var week_number = 0 | new Date().getDate() / 7;
-		//console.log('Week number:' + week_number );
-		//console.log('Week number:' + new Date().getDate() );
-		//console.log('Week number:' + new Date().getDate() /7 );
-		
-		//var currentDate = new Date();
-		//var firstDayOfMonth = new Date( currentDate.getFullYear(), currentDate.getMonth(), 1 );
-		//var firstWeekday = firstDayOfMonth.getDay();
-		//console.log('Week number1:' + currentDate );
-		//console.log('Week number2:' + firstDayOfMonth );
-		//console.log('Week number3:' + firstWeekday );
-		//console.log('Week getDate:' + currentDate.getDate() );
-		//console.log('Week getDay:' + currentDate.getDay() );
-		//var d = new Date(2021, 0, 17);
-		//console.log('Week getDate Object:' + d );
-		//console.log('Week getDate:' + d.getDate() );
-		//console.log('Week getDay:' + d.getDay() );
-		//console.log('Week getDay:' + dateFormatter(new Date()) );
-		//console.log('COMP:' + compareTimes( "9:30 AM", "9:30 PM") );
-		//console.log('COMP:' + compareTimes( "9:30 PM", "9:30 AM") );
-		//console.log('COMP:' + compareTimes( "9:00 AM", "9:30 AM") );
 	}
 
 	startFunction();
@@ -334,6 +311,7 @@
 		var d2 = calendarTable.rows.item(1).cells.item(3).innerHTML;
 		var d3 = calendarTable.rows.item(1).cells.item(4).innerHTML;
 		var d4 = calendarTable.rows.item(1).cells.item(5).innerHTML;
+
 		
 		var weeksMeetings = JSON.stringify({
 			meetings : []
@@ -412,9 +390,13 @@
 				var newCell = newRow.insertCell(0);//Add cell for time 
 				newCell.innerHTML = timeValueMatch;
 				//Now add cells for the rest of columns 
-				for( var z = 1; z < 6; z++)
+				for( var z = 1; z < 7; z++)
 					var newCell = newRow.insertCell(z);
-					
+
+				var btnTxt = "<button value=\"Delete\" id=\"removeFrom\" onclick=\"deleteMeeting();\" >Delete</button>"
+				btnTxt += "<button value=\"Update\" id=\"updateTo\" onclick=\"updateMeeting();\" >Update</button>";
+				btnTxt += "<button value=\"Review\" id=\"reviewStudent\" onclick=\"reviewMeeting();\" >Add</button>";
+				newRow.cells[6].innerHTML = btnTxt;
 				var id = weeksMeetingObject.meetings.find( record => record.time === timeValueMatch);
 				while (typeof id !== "undefined")
 				{	
@@ -436,10 +418,24 @@
 						}
 
 						console.log('Match?' + id.time + ":" + id.date + ":" + timeValueMatch + ":" + dtIndex + ":" + studentNameStr + ":" + id.studentIDs.length);
-						//calendarTable.rows[2].cells[1].rowSpan=2;
-						newRow.cells[dtIndex].rowSpan=id.timePeriods;
+						newRow.cells[dtIndex].rowSpan = id.timePeriods;
 						newRow.cells[dtIndex].innerHTML = studentNameStr;
+						for( var a = 1; a < id.timePeriods; a++)
+						{//Need to remove the next cell(s)
+							//newRow.rowIndex
+							//var nextIndex = newRow.rowIndex + a;
+							//console.log('Remove:' + nextIndex + ":" + dtIndex);
+							//calendarTable.rows.item(newRow.rowIndex + a).deleteCell(dtIndex);
+							//calendarTable.rows[newRow.rowIndex + a].deleteCell(dtIndex);
 
+						}
+						var locationString = newRow.rowIndex + ":" + dtIndex;
+						var tmpMessage = JSON.stringify({
+							"location" : locationString,
+							"id" : id.id
+						});
+						console.log('idx:' + locationString + ":" + id.id + ":" + newRow.cells.length);
+						meetingMapObject.meetings.push(JSON.parse(tmpMessage));
 					}
 					removeNode( weeksMeetingObject, id.id);
 					id = weeksMeetingObject.meetings.find( record => record.time === timeValueMatch);
@@ -447,6 +443,8 @@
 			}//For each 15 minute period
 		}//For each hour
 		console.log("weeksMeetings:" + weeksMeetingObject.meetings.length);
+		console.log("meetingMapObject:" + meetingMapObject.meetings.length);
+
 		highlight_calendar_row()
 		return;
 	}
@@ -462,8 +460,10 @@
 				// Get the row id where the cell exists
 				var rowId = this.parentNode.rowIndex;
 				var cellId = this.cellIndex;
+				seletedMeetingId = null;
 				console.log('Selected rowId: ' + rowId + ":" + cellId);
 				if (rowId == 0) {
+					seletedMeetingId = "";
 					var rowsNotSelected = table.getElementsByTagName('tr');
 					for (var row = 0; row < rowsNotSelected.length; row++) {
 						console.log('clean1');
@@ -479,12 +479,24 @@
 							var cellNotSelected = table.rows.item(row).cells.item(cell);
 							cellNotSelected.style.backgroundColor = "";
 							cellNotSelected.classList.remove('selected');
+							
 						}
 					}
 					//calendarTable.rows.item(1).cells.item(5).innerHTML];
 					var cellSelected = table.rows.item(rowId).cells.item(cellId);
 					cellSelected.style.backgroundColor = "yellow";
 					cellSelected.className += " selected";
+					var locationMatch = rowId + ":" + cellId;
+					console.log('selected meeting ID:' + locationMatch);
+					var selectedMeeting = meetingMapObject.meetings.find( record => record.location === locationMatch);
+					//seletedMeetingId = cellSelected.innerHTML;
+					if (typeof selectedMeeting !== "undefined")
+					{
+						selectedMeetingId = selectedMeeting.id;
+						console.log('selected meeting ID:' + selectedMeetingId);
+					}
+					else
+						selectedMeetingId = null;
 					//loadMeetingTable();
 				}
 			}
