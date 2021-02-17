@@ -14,10 +14,7 @@
 	
 	<button onclick="loadStudentTable2()" id="testButton">loadStudentTable2</button>
 	<button onclick="loadCalendarTable2()" id="testButton">loadCalendarTable2</button>
-	loadCalendarTable2
 
-	<div id="result"></div>
-	<button onclick="memoryFunction()" id="addButton">Add Student</button>
 	<div id="memSpace"></div>
 	
 
@@ -45,22 +42,9 @@
 <button onclick="addStudentFunction()" id="addStudentButton">Add Student</button>
 <button onclick="deleteStudentFunction()" id="deleteStudentButton">Delete Student</button>
 
-<h2>Meeting Data</h2>
-	<table id="meeting-table" class="gr" style="width: 100%" border='1'>
-	</table>
-	<form id="meetingInputForm" onSubmit="addMeeting(); return false;" hidden>
-		Date : <input type="text" name="date" id="inputDate" value="01/01/2021"/><br>
-		Notes : <input type="text" name="notes" id="inputNotes" value="We chatted"/><br>
-		Time : <input type="text" name="notes" id="inputTime" value="9:00"/><br>
-		
-		<input type="submit" value="Add Meeting"/>
-		<input type="button" value="Cancel" onClick="cancelAddMeeting()"/>
-	</form>
-<button onclick="addMeetingFunction()" id="addMeetingButton">Add Meeting</button>
-<button onclick="deleteMeetingFunction()" id="deleteMeetingButton">Delete Meeting</button>
+
 
 <table class="student_fixed_header" id="student-table2" width="100%">
-	<caption id="HeadersRow">Students with fixed Column Header Row</caption>
 	<thead>
     	<tr>
       		<th class="FirstNameCol">First Name</th>
@@ -75,11 +59,12 @@
   	<tbody>
   	</tbody>
 </table>
+
+<h2>Weekly Calendar</h2>
 <button onclick="deleteMeeting()" id="deleteMeetingButton">DeleteMeeting</button>
 <button onclick="updateMeeting()" id="updateMeetingButton">UpdateMeeting</button>
 <button onclick="addMeeting()" id="addMeetingButton">AddMeeting</button>
 <table class="gt" id="calendar-table2" width="100%">
-	<caption id="HeadersRow">Meetings with fixed Column Header Row</caption>
 	<thead>
     	<tr>
     		<th></th>
@@ -88,7 +73,6 @@
 			<th>Wednesday</th>
       		<th>Thursday</th>
       		<th>Friday</th>
-      		<th></th>
     	</tr>
     	<tr>
     		<th>Time</th>
@@ -97,31 +81,11 @@
 			<th id = "WD3">TBD</th>
       		<th id = "WD4">TBD</th>
       		<th id = "WD5">TBD</th>
-      		<th>Function</th>
     	</tr>
   	</thead>
   	<tbody>
   	</tbody>
 </table>
-
-<h2>Calendar Data</h2>
-	<table id="calendar-table" class="table-layout" style="width: 100%" border='1'>
-	<tr>
-    	<th>Monday</th>
-    	<th>Tuesday</th>
-    	<th>Wednesday</th>
-    	<th>Thursday</th>
-    	<th>Friday</th>
-  	</tr>
-  	<tr>
-	    <th>1</th>
-	    <th>2</th>
-	    <th>3</th>
-	    <th>4</th>
-	    <th>5</th>
-  	</tr>
-	</table>
-
 
 <script>
 	var studentDataObject;
@@ -242,29 +206,25 @@
 		return dateStr;
 	}
 
+	//Set the dates in the header row of the calendar
+	//Called whenever the date changes
+	//And resets the meetings
 	function setCalendarDates()
 	{
-		//var dateIn = document.getElementById('dateInput').value;
 		//console.log('dateIn:' + document.getElementById('dateInput').value );
 		var tmpDate = new Date(document.getElementById('dateInput').value);
 		var dateObject = new Date ( tmpDate.getTime() - tmpDate.getTimezoneOffset() * -60000 );
 		var dateDiff = dateObject.getDate() - dateObject.getDay() + (dateObject.getDay() === 0 ? -6 : 1);
 		var nd1 = new Date(dateObject.setDate(dateDiff));
-		var myTable = document.getElementById('calendar-table');
 		document.getElementById('WD1').innerHTML = dateFormatter(nd1);
-		myTable.rows[1].cells[0].innerHTML = dateFormatter(nd1);//.toDateString();
 		nd1.setDate(nd1.getDate() + 1);
 		document.getElementById('WD2').innerHTML = dateFormatter(nd1);
-		myTable.rows[1].cells[1].innerHTML = dateFormatter(nd1);
 		nd1.setDate(nd1.getDate() + 1); 
 		document.getElementById('WD3').innerHTML = dateFormatter(nd1);
-		myTable.rows[1].cells[2].innerHTML = dateFormatter(nd1);
 		nd1.setDate(nd1.getDate() + 1);
 		document.getElementById('WD4').innerHTML = dateFormatter(nd1);
-		myTable.rows[1].cells[3].innerHTML = dateFormatter(nd1);
 		nd1.setDate(nd1.getDate() + 1);
 		document.getElementById('WD5').innerHTML = dateFormatter(nd1);
-		myTable.rows[1].cells[4].innerHTML = dateFormatter(nd1);
 		if( studentsLoaded() )
 			loadCalendarTable2();
 	}
@@ -410,15 +370,15 @@
 					}
 				}
 				//console.log("skipCells:" + skipCells + ":" + skipCt);
-				for( var z = 1; z < 7 - skipCt; z++)
+				for( var z = 1; z < 6 - skipCt; z++)
 				{
 					newCell = newRow.insertCell(z);
 				}
 				//console.log("newRow.cells.length:" + newRow.cells.length);
-				var btnTxt = "<button value=\"Delete\" id=\"removeFrom\" onclick=\"deleteMeeting();\" >Delete</button>"
-				btnTxt += "<button value=\"Update\" id=\"updateTo\" onclick=\"updateMeeting();\" >Update</button>";
-				btnTxt += "<button value=\"Review\" id=\"reviewStudent\" onclick=\"reviewMeeting();\" >Add</button>";
-				newRow.cells[newRow.cells.length - 1].innerHTML = btnTxt;
+				//var btnTxt = "<button value=\"Delete\" id=\"removeFrom\" onclick=\"deleteMeeting();\" >Delete</button>"
+				//btnTxt += "<button value=\"Update\" id=\"updateTo\" onclick=\"updateMeeting();\" >Update</button>";
+				//btnTxt += "<button value=\"Review\" id=\"reviewStudent\" onclick=\"reviewMeeting();\" >Add</button>";
+				//newRow.cells[newRow.cells.length - 1].innerHTML = btnTxt;
 				var id = weeksMeetingObject.meetings.find( record => record.time === timeValueMatch);
 				while (typeof id !== "undefined")
 				{	
@@ -483,7 +443,8 @@
 				selectedMeetingId = null;
 				var rowSelected = table.rows.item(rowId);
 				//console.log('Selected calendar rowId: ' + rowId + ":" + cellId + ":" + rowSelected.cells.length);
-				if (rowId <= 1 || cellId == 0 || cellId == rowSelected.cells.length - 1) {
+				//if (rowId <= 1 || cellId == 0 || cellId == rowSelected.cells.length - 1) {
+				if (rowId <= 1 || cellId == 0) {
 					console.log('clean1');
 					//selectedMeetingId = null;
 					//console.log('selected meeting ID1:' + selectedMeetingId);
@@ -527,7 +488,6 @@
 					}
 					else
 						selectedMeetingId = null;
-					//loadMeetingTable();
 				}//End else
 				console.log('selected meeting ID2:' + selectedMeetingId);
 			}
@@ -593,100 +553,13 @@
 			n1 += 1200;
 		return n1;
 	}
-
 	
-	//Need column index
-	//Meetings object
-	//Calendar Table
-	function insertCalendarCells()
-	{
-		var cellIndex = arguments[0];
-		var aMeetingObject = arguments[1];
-		var calendarTable = arguments[2];
-		var dateMatchValue = arguments[3];
-		var rowCount = calendarTable.rows.length;
-		console.log('Table Ct:' + rowCount);
-		for( var x = 2; x < rowCount; x++ )
-		{
-			//console.log('Table Ct:' + x);
-			var timeValueMatch = calendarTable.rows[x].cells[0].innerHTML
-			//console.log('Table Ct:' + timeValueMatch + ":" + dateMatchValue)
-			var id = aMeetingObject.meetings.find( record => record.time === timeValueMatch);
-			if (typeof id !== "undefined")
-			{	
-				//console.log('Match?' + id.date + ":" + dateMatchValue);
-				
-				if( id.date == dateMatchValue)
-					console.log('Match!!!' + id.time + ":" + id.date + ":" + id.id + ":" + id.studentId);
-				var studentMatch = studentDataObject.students.find( record => record.id === Number(id.studentId));
-				if (typeof studentMatch !== "undefined")
-				{
-					removeNode( aMeetingObject, id.id);
-					var newText = studentMatch.lastName + "|" + id.code;
-					var cell = calendarTable.rows[x].cells[cellIndex];
-					cell.rowSpan = "2";
-					cell.innerHTML = newText;
-					console.log('SPAN!!!' + cell.rowSpan );
-					//document.getElementById("myTd").rowSpan = "1";
-				}
-			}
-
-			//console.log('Meetings:' + aMeetingObject.meetings.length);
-			//var newText = aMeetingObject[objectIndex].time + ":" + aMeetingObject[objectIndex].studentName;
-
-		}
-	}
 	function removeNode( data, id){
 		data.meetings.forEach(function(e, index){
 	    if(id == e.id){
 	    	data.meetings.splice(index, 1);
 	    }
 	  })
-	}
-	function insertCalendarCells2()
-	{//insertCalendarCells( meetingObject[d0], 0, calendarTable, currentLength, timeSlots);
-	//		insertCalendarCells2( meetingObject[d0], 0, calendarTable, currentLength, timeSlots);
-
-		var aMeetingObject = arguments[0];
-		var columnIndex = arguments[1];
-		var calendarTable = arguments[2];
-		var currentLength = arguments[3];
-		var timeSlots = arguments[4];
-		console.log("Insert Meeting data for row:" + columnIndex + ":" + aMeetingObject.length );
-		for( var x = currentLength; x < timeSlots; x++ )
-		{
-			//First what is the time slot
-			var slotVal = calendarTable.rows[x].cells[0].innerHTML;
-			//console.log("Slot:" + ":" + slotVal);
-			var id = aMeetingObject.find( record => record.time === slotVal);
-			if (typeof id !== "undefined")
-			{
-				console.log("Found Slot:" + ":" + id.time);
-				console.log("Found Slot:" + ":" + id.studentId);
-				var studentM = studentDataObject.students.find( record => record.id === Number(id.studentId));
-				console.log("Found Student:" + ":" + studentM.lastName);
-				calendarTable.rows[x].cells[columnIndex].innerHTML = studentM.lastName;
-			}
-				
-
-			
-			
-			//for( var y = 0; y < aMeetingObject.length; y++ )
-			//{
-			//	var meeting = aMeetingObject[y];
-			//	var newText = aMeetingObject[y].date + ":" + aMeetingObject[y].time;
-			//	var slotVal = calendarTable.rows[x].cells[0].innerHTML;
-			//	var tVal = aMeetingObject[y].time;
-			//	console.log("Slot val!!!:" + slotVal + ":" + tVal + ":" + slotVal.localeCompare(tVal) );
-			//	if( slotVal.localeCompare(tVal) == 0 )
-			//	{
-			//		console.log("Slot val!!!:" + slotVal + ":" + tVal + ":");
-			//		calendarTable.rows[x].cells[columnIndex].innerHTML = "filled";
-			//	}
-			//	console.log("Slotted");
-			//}
-			
-		}
 	}
 
 	
@@ -777,102 +650,8 @@
 					rowSelected.style.backgroundColor = "yellow";
 					rowSelected.className += " selected";
 					selectedStudentId = rowId - 1;//Decrement 1 for header row
-					//loadMeetingTable();
-				}
-				loadMeetingTable();
-			}
-		}
-	}
-
-	function highlight_meeting_row() {
-		var table = document.getElementById('meeting-table');
-		var cells = table.getElementsByTagName('td');
-		for (var i = 0; i < cells.length; i++) {
-			// Take each cell
-			var cell = cells[i];
-			// do something on onclick event for cell
-			cell.onclick = function() {
-				// Get the row id where the cell exists
-				var rowId = this.parentNode.rowIndex;
-				if (rowId == 0) {
-					console.log('Selected rowId: ' + rowId);
-					var rowsNotSelected = table.getElementsByTagName('tr');
-					for (var row = 0; row < rowsNotSelected.length; row++) {
-						rowsNotSelected[row].style.backgroundColor = "";
-						rowsNotSelected[row].classList.remove('selected');
-					}
-				} else {
-					var rowsNotSelected = table.getElementsByTagName('tr');
-					for (var row = 0; row < rowsNotSelected.length; row++) {
-						rowsNotSelected[row].style.backgroundColor = "";
-						rowsNotSelected[row].classList.remove('selected');
-					}
-					var rowSelected = table.getElementsByTagName('tr')[rowId];
-					rowSelected.style.backgroundColor = "yellow";
-					rowSelected.className += " selected";
-					selectedMessageId = rowId - 1;//Decrement 1 for header row
-					console.log('The id of the selected meeting is: ' + rowId);
 				}
 			}
-		}
-	}
-
-	function clearMeetingTable() {
-		document.getElementById("meeting-table").innerHTML = "";
-	}
-	function loadMeetingTable() {
-		console.log('Update the meeting table: ' + studentSelected() );
-		clearMeetingTable();
-		if ( !studentSelected() ) {
-			console.log('Cannot Update the meeting table as there is no student selected: ');
-			return false;
-		}
-		if ( !currentStudentHasMeetings() ) {
-			console.log('Cannot Update the meeting table as there are no meetings: ');
-			return false;
-		}
-
-		console.log('Update the meeting table meetings: ' + studentDataObject.students[selectedStudentId].meetings.length);
-		if (typeof selectedStudentId === "undefined"
-				|| selectedStudentId === null) {
-			console.log('Cant find the student: ' + selectedStudentId);
-		} else {
-
-			//Get keys for headers
-			var col = [];
-			for ( var key in studentDataObject.students[selectedStudentId]["meetings"][0]) {
-				if (Array
-						.isArray(studentDataObject.students[selectedStudentId]["meetings"][key])) {
-					console.log("key array!!!!!!!!" + key);
-					continue;
-				}
-				if (col.indexOf(key) === -1) {
-					col.push(key);
-				}
-			}
-			console.log("keys:" + col.length);
-			//Now populate student table
-			//First set headers
-			//Add headers
-			console.log("Add headers:" + col.length);
-			var table = document.getElementById("meeting-table");
-			var header = table.createTHead();
-			var row = header.insertRow(0);
-			for (var i = 0; i < col.length; i++) {
-
-				var cell = row.insertCell(i);
-				cell.innerHTML = col[i].toUpperCase();
-			}
-			//Now add meetings
-			for (var r = 0; r < studentDataObject.students[selectedStudentId].meetings.length; r++) {
-				var x = document.getElementById('meeting-table').insertRow(
-						r + 1);//Need to add offset for header
-				for (var c = 0; c < col.length; c++) {
-					var y = x.insertCell(c);
-					y.innerHTML = studentDataObject.students[selectedStudentId].meetings[r][col[c]];
-				}
-			}
-			highlight_meeting_row();
 		}
 	}
 
@@ -891,28 +670,6 @@
 			selectedStudentId = null;
 			loadStudentTable();
 			clearMeetingTable();
-		}
-	}
-	function deleteMeetingFunction() {
-		console.log('Delete a student\'s meeting: ' + selectedStudentId);
-		if ((typeof selectedStudentId === "undefined" || selectedStudentId === null)
-				|| (typeof selectedMessageId === "undefined" || selectedMessageId === null)) {
-			console.log('Cant Delete a student\'s meeting: '
-					+ selectedStudentId);
-		} else {
-			console.log('Delete meeting from a student: ' + selectedStudentId);
-			console.log('Delete this meeting student: ' + selectedMessageId);
-			console
-					.log('student meetings: '
-							+ studentDataObject.students[selectedStudentId].meetings.length);
-			studentDataObject.students[selectedStudentId].meetings.splice(
-					selectedMessageId, 1);
-			console
-					.log('student meetings: '
-							+ studentDataObject.students[selectedStudentId].meetings.length);
-			selectedMessageId = null;
-			loadStudentTable();
-			loadMeetingTable();
 		}
 	}
 	function addStudentFunction() {
@@ -969,56 +726,7 @@
 		loadStudentTable();
 		cancelAdd();
 	}
-	function cancelAddMeeting()
-	{
-		document.getElementById('meetingInputForm').reset;
-		document.getElementById('meetingInputForm').hidden = true;
-		document.getElementById('addMeetingButton').hidden = false;
-		document.getElementById('deleteMeetingButton').hidden = false;
-	}
 
-	function addMeetingFunction() {
-		console.log('Add a Meeting:');
-		//First confirm that there are students and one has been selected
-		if ( !studentsLoaded() || !studentSelected()) {
-			console.log('No student!' + studentDataObject);
-			alert("Must add student(s) and select one prior to adding meetings");
-		}
-		else
-		{
-			document.getElementById('meetingInputForm').hidden = false;
-			document.getElementById('addMeetingButton').hidden = true;
-			document.getElementById('deleteMeetingButton').hidden = true;
-		}
-	}
-	function addMeeting() {
-		console.log('Adding a meeting:' + arguments[0]);
-		console.log('Adding a meeting?' + currentStudentHasMeetings());
-		//Check to see if the student has any meetings
-		if ( !currentStudentHasMeetings() ) {
-			console.log('No student meetings!');
-			studentDataObject.students[selectedStudentId]['meetings'] = [];
-		}
-		console.log('Adding a meeting?' + currentStudentHasMeetings());
-		//console.log('Adding a meeting?' + studentDataObject.students[selectedStudentId].meetings.length);
-
-		//Now we can add the student
-		var date = document.getElementById('meetingInputForm').elements['inputDate'].value;
-		var notes = document.getElementById('meetingInputForm').elements['inputNotes'].value;
-		var time = document.getElementById('meetingInputForm').elements['inputTime'].value;
-
-		var tmpMeeting = JSON.stringify({
-			"date" : date,
-			"time" : time,
-			"notes" : notes
-		});
-		console.log("JSON:" + tmpMeeting);
-		studentDataObject.students[selectedStudentId].meetings.push(JSON.parse(tmpMeeting));
-		console.log("meetings length:" + studentDataObject.students[selectedStudentId].meetings.length);
-		//alert("Stop");
-		loadMeetingTable();
-		cancelAddMeeting();
-	}
 </script>
 <script>
 </script>
