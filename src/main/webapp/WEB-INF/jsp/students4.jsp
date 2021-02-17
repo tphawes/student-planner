@@ -75,7 +75,9 @@
   	<tbody>
   	</tbody>
 </table>
-
+<button onclick="deleteMeeting()" id="deleteMeetingButton">DeleteMeeting</button>
+<button onclick="updateMeeting()" id="updateMeetingButton">UpdateMeeting</button>
+<button onclick="addMeeting()" id="addMeetingButton">AddMeeting</button>
 <table class="gt" id="calendar-table2" width="100%">
 	<caption id="HeadersRow">Meetings with fixed Column Header Row</caption>
 	<thead>
@@ -97,7 +99,6 @@
       		<th id = "WD5">TBD</th>
       		<th>Function</th>
     	</tr>
-    	
   	</thead>
   	<tbody>
   	</tbody>
@@ -106,19 +107,19 @@
 <h2>Calendar Data</h2>
 	<table id="calendar-table" class="table-layout" style="width: 100%" border='1'>
 	<tr>
-    <th>Monday</th>
-    <th>Tuesday</th>
-    <th>Wednesday</th>
-    <th>Thursday</th>
-    <th>Friday</th>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>2</td>
-    <td>3</td>
-    <td>4</td>
-    <td>5</td>
-  </tr>
+    	<th>Monday</th>
+    	<th>Tuesday</th>
+    	<th>Wednesday</th>
+    	<th>Thursday</th>
+    	<th>Friday</th>
+  	</tr>
+  	<tr>
+	    <th>1</th>
+	    <th>2</th>
+	    <th>3</th>
+	    <th>4</th>
+	    <th>5</th>
+  	</tr>
 	</table>
 
 
@@ -127,9 +128,10 @@
 	var selectedStudentId, selectedMessageId;
 	var studentKeys = [];
 	var selectedMeetingId = null;
-	var meetingMapObject = JSON.parse(JSON.stringify({
-		"meetings" : []
-	}));
+	var meetingMapObject = null;
+	//JSON.parse(JSON.stringify({
+	//	"meetings" : []
+	//}));
 
 	//This is a test space for any and everything
 	function testFunction()
@@ -303,6 +305,10 @@
 	function loadCalendarTable2()
 	{
 		var calendarTable = document.getElementById('calendar-table2');
+		meetingMapObject = JSON.parse(JSON.stringify({
+			"meetings" : []
+		}));
+
 		var startDate = calendarTable.rows.item(1).cells.item(1).innerHTML;
 		var endDate = calendarTable.rows.item(1).cells.item(5).innerHTML;
 		console.log("Dates:" + startDate + ":" + endDate );
@@ -357,7 +363,7 @@
 		console.log("currentLength:" + currentLength );
 		for ( x = currentLength; x > 2; x-- ) 
 		{
-			console.log("Delete row:" + (x - 1) );
+			//console.log("Delete row:" + (x - 1) );
 			calendarTable.deleteRow( x - 1);
 		}
 		
@@ -366,6 +372,8 @@
 		//return;
 		//Need to go from 8 to 16
 		var timeSlots = 38;
+		var skipCells = [ 0, 0, 0, 0, 0];
+		//Add rows for each hour
 		for( var x = 8; x < 17; x++ )
 		{
 			var amVal = " AM";
@@ -378,7 +386,8 @@
 				hrVal = "0" + hrVal;
 			//console.log("Adding row:" + x + ":" + hrVal);
 			var hrSegs = [ "00", "15", "30", "45"];
-			var skipCells = [ 0, 0, 0, 0, 0];
+			
+			//Add rows for each 15 minute segment
 			for( var y = 0; y < hrSegs.length; y++ )
 			{
 				var tVal = "";
@@ -390,16 +399,26 @@
 				var newCell = newRow.insertCell(0);//Add cell for time 
 				newCell.innerHTML = timeValueMatch;
 				//Now add cells for the rest of columns 
-				console.log("skipCells:" + skipCells);
-
-				for( var z = 1; z < 7; z++)
+				//console.log("skipCells:" + skipCells);
+				var skipCt = 0;
+				for( var b = 0; b < skipCells.length; b++ )
 				{
-					//var newCell = newRow.insertCell(z);
+					if( skipCells[b] > 0 )
+					{
+						skipCells[b] = skipCells[b] - 1;
+						skipCt++;
+					}
 				}
+				//console.log("skipCells:" + skipCells + ":" + skipCt);
+				for( var z = 1; z < 7 - skipCt; z++)
+				{
+					newCell = newRow.insertCell(z);
+				}
+				//console.log("newRow.cells.length:" + newRow.cells.length);
 				var btnTxt = "<button value=\"Delete\" id=\"removeFrom\" onclick=\"deleteMeeting();\" >Delete</button>"
 				btnTxt += "<button value=\"Update\" id=\"updateTo\" onclick=\"updateMeeting();\" >Update</button>";
 				btnTxt += "<button value=\"Review\" id=\"reviewStudent\" onclick=\"reviewMeeting();\" >Add</button>";
-				//newRow.cells[6].innerHTML = btnTxt;
+				newRow.cells[newRow.cells.length - 1].innerHTML = btnTxt;
 				var id = weeksMeetingObject.meetings.find( record => record.time === timeValueMatch);
 				while (typeof id !== "undefined")
 				{	
@@ -421,13 +440,13 @@
 						}
 
 						console.log('Match?' + id.time + ":" + id.date + ":" + timeValueMatch + ":" + dtIndex + ":" + studentNameStr + ":" + id.studentIDs.length);
-						var newCell = newRow.insertCell(dtIndex);
-						
+						//var newCell = newRow.insertCell(dtIndex);
+						var newCell = newRow.cells[dtIndex];
 						newCell.rowSpan = id.timePeriods;
 						newCell.innerHTML = studentNameStr;
 						//newRow.cells[dtIndex].rowSpan = id.timePeriods;
 						//newRow.cells[dtIndex].innerHTML = studentNameStr;
-						skipCells[dateStrings.indexOf(id.date)] = id.timePeriods;
+						skipCells[dateStrings.indexOf(id.date)] = id.timePeriods - 1;
 
 						var locationString = newRow.rowIndex + ":" + dtIndex;
 						var tmpMessage = JSON.stringify({
@@ -439,7 +458,8 @@
 					}
 					removeNode( weeksMeetingObject, id.id);
 					id = weeksMeetingObject.meetings.find( record => record.time === timeValueMatch);
-				}
+				}//End while (typeof id !== "undefined")
+				//console.log('ROW LENGTH:' + newRow.rowIndex + ":" + newRow.cells.length);	
 			}//For each 15 minute period
 		}//For each hour
 		console.log("weeksMeetings:" + weeksMeetingObject.meetings.length);
@@ -460,26 +480,36 @@
 				// Get the row id where the cell exists
 				var rowId = this.parentNode.rowIndex;
 				var cellId = this.cellIndex;
-				seletedMeetingId = null;
-				console.log('Selected rowId: ' + rowId + ":" + cellId);
-				if (rowId == 0) {
-					seletedMeetingId = "";
+				selectedMeetingId = null;
+				var rowSelected = table.rows.item(rowId);
+				//console.log('Selected calendar rowId: ' + rowId + ":" + cellId + ":" + rowSelected.cells.length);
+				if (rowId <= 1 || cellId == 0 || cellId == rowSelected.cells.length - 1) {
+					console.log('clean1');
+					//selectedMeetingId = null;
+					//console.log('selected meeting ID1:' + selectedMeetingId);
+
 					var rowsNotSelected = table.getElementsByTagName('tr');
 					for (var row = 0; row < rowsNotSelected.length; row++) {
-						console.log('clean1');
-						rowsNotSelected[row].style.backgroundColor = "";
-						rowsNotSelected[row].classList.remove('selected');
-					}
-				} else {
-					var rowsNotSelected = table.getElementsByTagName('tr');
-					for (var row = 0; row < rowsNotSelected.length; row++) {
-						console.log('clean2');
+						//console.log('clean1');
+						//rowsNotSelected[row].style.backgroundColor = "";
+						//rowsNotSelected[row].classList.remove('selected');
 						var cellLength = table.rows[row].cells.length;
 						for (var cell = 0; cell < cellLength; cell++) {
 							var cellNotSelected = table.rows.item(row).cells.item(cell);
 							cellNotSelected.style.backgroundColor = "";
 							cellNotSelected.classList.remove('selected');
-							
+						}
+					}
+				} else {
+					var rowsNotSelected = table.getElementsByTagName('tr');
+					for (var row = 0; row < rowsNotSelected.length; row++) {
+						console.log('clean2');
+						//seletedMeetingId = null;
+						var cellLength = table.rows[row].cells.length;
+						for (var cell = 0; cell < cellLength; cell++) {
+							var cellNotSelected = table.rows.item(row).cells.item(cell);
+							cellNotSelected.style.backgroundColor = "";
+							cellNotSelected.classList.remove('selected');
 						}
 					}
 					//calendarTable.rows.item(1).cells.item(5).innerHTML];
@@ -487,22 +517,47 @@
 					cellSelected.style.backgroundColor = "yellow";
 					cellSelected.className += " selected";
 					var locationMatch = rowId + ":" + cellId;
-					console.log('selected meeting ID:' + locationMatch);
+					//console.log('selected meeting ID:' + locationMatch);
 					var selectedMeeting = meetingMapObject.meetings.find( record => record.location === locationMatch);
 					//seletedMeetingId = cellSelected.innerHTML;
 					if (typeof selectedMeeting !== "undefined")
 					{
 						selectedMeetingId = selectedMeeting.id;
-						console.log('selected meeting ID:' + selectedMeetingId);
+						//console.log('selected meeting ID:' + selectedMeetingId);
 					}
 					else
 						selectedMeetingId = null;
 					//loadMeetingTable();
-				}
+				}//End else
+				console.log('selected meeting ID2:' + selectedMeetingId);
 			}
 		}
 	}
 
+	function deleteMeeting()
+	{
+		if (typeof selectedMeetingId !== "undefined" && selectedMeetingId !== null)
+		{
+			console.log('Delete selected meeting ID:' + selectedMeetingId + ":" + studentDataObject.meetings.length);
+			var aMeeting = studentDataObject.meetings.find( record => record.id === selectedMeetingId);
+			//console.log('Delete selected meeting ID:' + aMeeting.time);
+			var index = studentDataObject.meetings.findIndex(obj => obj.id==selectedMeetingId);
+			console.log("INDEX:" + index);
+			studentDataObject.meetings.splice(index,1);
+			console.log('Delete selected meeting ID:' + selectedMeetingId + ":" + studentDataObject.meetings.length);
+			//If we have a valid meeting we need to delete and load the calendar table
+			loadCalendarTable2()
+		}
+	}
+
+	function updateMeeting()
+	{
+			console.log('Update selected meeting ID:' + selectedMeetingId);
+	}
+	function reviewMeeting()
+	{
+			console.log('Review selected meeting ID:' + selectedMeetingId);
+	}
 
 	//Returns true is t1 is less than t2
 	function compareTimes()
