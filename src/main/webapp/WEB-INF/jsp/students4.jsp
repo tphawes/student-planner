@@ -378,6 +378,7 @@
 				hrVal = "0" + hrVal;
 			//console.log("Adding row:" + x + ":" + hrVal);
 			var hrSegs = [ "00", "15", "30", "45"];
+			var skipCells = [ 0, 0, 0, 0, 0];
 			for( var y = 0; y < hrSegs.length; y++ )
 			{
 				var tVal = "";
@@ -385,18 +386,20 @@
 					timeValueMatch = hrVal + ":" + hrSegs[y] + pmVal;
 				else
 					timeValueMatch = hrVal + ":" + hrSegs[y] + amVal;
-				//console.log("Adding row:" + x + ":" + timeValueMatch);
 				var newRow = calendarTable.insertRow(-1);//Add row
 				var newCell = newRow.insertCell(0);//Add cell for time 
 				newCell.innerHTML = timeValueMatch;
 				//Now add cells for the rest of columns 
-				for( var z = 1; z < 7; z++)
-					var newCell = newRow.insertCell(z);
+				console.log("skipCells:" + skipCells);
 
+				for( var z = 1; z < 7; z++)
+				{
+					//var newCell = newRow.insertCell(z);
+				}
 				var btnTxt = "<button value=\"Delete\" id=\"removeFrom\" onclick=\"deleteMeeting();\" >Delete</button>"
 				btnTxt += "<button value=\"Update\" id=\"updateTo\" onclick=\"updateMeeting();\" >Update</button>";
 				btnTxt += "<button value=\"Review\" id=\"reviewStudent\" onclick=\"reviewMeeting();\" >Add</button>";
-				newRow.cells[6].innerHTML = btnTxt;
+				//newRow.cells[6].innerHTML = btnTxt;
 				var id = weeksMeetingObject.meetings.find( record => record.time === timeValueMatch);
 				while (typeof id !== "undefined")
 				{	
@@ -418,17 +421,14 @@
 						}
 
 						console.log('Match?' + id.time + ":" + id.date + ":" + timeValueMatch + ":" + dtIndex + ":" + studentNameStr + ":" + id.studentIDs.length);
-						newRow.cells[dtIndex].rowSpan = id.timePeriods;
-						newRow.cells[dtIndex].innerHTML = studentNameStr;
-						for( var a = 1; a < id.timePeriods; a++)
-						{//Need to remove the next cell(s)
-							//newRow.rowIndex
-							//var nextIndex = newRow.rowIndex + a;
-							//console.log('Remove:' + nextIndex + ":" + dtIndex);
-							//calendarTable.rows.item(newRow.rowIndex + a).deleteCell(dtIndex);
-							//calendarTable.rows[newRow.rowIndex + a].deleteCell(dtIndex);
+						var newCell = newRow.insertCell(dtIndex);
+						
+						newCell.rowSpan = id.timePeriods;
+						newCell.innerHTML = studentNameStr;
+						//newRow.cells[dtIndex].rowSpan = id.timePeriods;
+						//newRow.cells[dtIndex].innerHTML = studentNameStr;
+						skipCells[dateStrings.indexOf(id.date)] = id.timePeriods;
 
-						}
 						var locationString = newRow.rowIndex + ":" + dtIndex;
 						var tmpMessage = JSON.stringify({
 							"location" : locationString,
