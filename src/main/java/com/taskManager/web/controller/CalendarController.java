@@ -50,7 +50,7 @@ public class CalendarController {
         //model.addAttribute("data",jsonStr);
 		model.put("name", "Trd");
 
-		return "table3";
+		return "cal2";
 	}
 	
 }

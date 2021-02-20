@@ -48,6 +48,7 @@ public class TestJStudents {
 		int vLength = lastNames.size();
 		String son[] = { "son", "man", "berg", "stein", "er" };
 		String codes[] = { "SST", "504", "Admin", "Scheduling", "Other" };
+		String admins[] = { "Malcolm", "Jen W." };
 
         for(int index = 0; index < vLength; index++) {
             //System.out.println(lastNames.get(index));
@@ -64,6 +65,15 @@ public class TestJStudents {
 		Vector<String> meetingTimes = new Vector<String>();
 		JSONArray studentArray = new JSONArray();
 		JSONArray meetingArray = new JSONArray();
+		JSONArray meetingCodeArray = new JSONArray();
+		JSONArray adminArray = new JSONArray();
+        for (int i = 0; i < codes.length; i++) {
+        	meetingCodeArray.add(codes[i]);
+        }
+        for (int i = 0; i < admins.length; i++) {
+        	adminArray.add(admins[i]);
+        }
+
         for(int index = 0; index < vLength; index++) {
         	Student aStudent = new Student();
         	int grade = rand.nextInt(6) + 8;
@@ -122,6 +132,10 @@ public class TestJStudents {
 		JSONObject obj = new JSONObject();
 		obj.put("students", studentArray);
 		obj.put("meetings", meetingArray);
+		obj.put("meetingCodes", meetingCodeArray);
+		obj.put("meetingCodes", meetingCodeArray);
+		obj.put("admins", adminArray);
+
 		JSONArray area = (JSONArray) obj.get("students");
 		System.out.println("Students:" + area.size() );
 		String fileName = "C:\\Users\\tomha\\git\\student-planner\\data2.json";

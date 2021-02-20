@@ -12,6 +12,8 @@
 	Set Calendar Dates:<input type="date" id="dateInput" onChange=setCalendarDates()><br>
 	<button onclick="startFunction()" id="startButton">start button</button>
 	
+	<button onclick="openForm()" id="formButton">form button</button>
+	
 	<button onclick="loadStudentTable2()" id="testButton">loadStudentTable2</button>
 	<button onclick="loadCalendarTable2()" id="testButton">loadCalendarTable2</button>
 
@@ -63,7 +65,7 @@
 <h2>Weekly Calendar</h2>
 <button onclick="deleteMeeting()" id="deleteMeetingButton">DeleteMeeting</button>
 <button onclick="updateMeeting()" id="updateMeetingButton">UpdateMeeting</button>
-<button onclick="addMeeting()" id="addMeetingButton">AddMeeting</button>
+<button onclick="addMeeting()" id="addMeetingButton1">AddMeeting</button>
 <table class="gt" id="calendar-table2" width="100%">
 	<thead>
     	<tr>
@@ -87,12 +89,60 @@
   	</tbody>
 </table>
 
+
+
+<div class="form-popup" id="myForm">
+  <form class="form-container">
+    <h1>Meeting Information</h1>
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter admin" id="meetingAdmin" value='Mary' required>
+    <input type="text" placeholder="Enter periods" id="meetingPeriods" value='1' required>
+    <input type="text" placeholder="Enter code" id="meetingCode" value='SST'  required>
+    <input type="text" id="meetingTime" required disabled>
+    <input type="text" id="meetingDate" required disabled>
+    
+ <select name="grade" id="grade" size="8" onchange="addToStudentList()">
+<option value="8">8</option>
+  <option value="9" selected>9</option>
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option>
+</select>
+<select name="codeSelectList" id="codeSelectList" multiple size="8">
+</select>
+<select name="adminSelectList" id="adminSelectList" multiple size="8">
+</select>
+<select name="meetingDuration" id="meetingDuration" multiple size="8">
+  <option value="1" selected>15</option>
+  <option value="2">30</option>
+  <option value="3">45</option>
+  <option value="4">60</option>
+  <option value="5">75</option>
+  <option value="6">90</option>
+  <option value="7">105</option>
+  <option value="8">120</option>
+</select>
+<select name="studentSelectList" id="studentSelectList" multiple size="10">
+</select>
+
+    <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+    <button type="button" class="btn add" id="addMeetingButton" value="Add" onclick="addMeeting2()"></button>
+  </form>
+</div>
+
 <script>
 	var studentDataObject;
 	var selectedStudentId, selectedMessageId;
 	var studentKeys = [];
+	var adminList = [];
+	var codeList = [];
 	var selectedMeetingId = null;
+	var selectedCalendarRow = null;
+	var selectedCalendarCell = null;
+	var newMeetingDate = null;
+	var newMeetingTime = null;
 	var meetingMapObject = null;
+	var maxMeetingId = 0; 
 	//JSON.parse(JSON.stringify({
 	//	"meetings" : []
 	//}));
@@ -104,6 +154,8 @@
 		loadStudentTable2();
 	}
 
+
+		
 	startFunction();
 	function startFunction() {
 		console.log("Start function:");
@@ -305,10 +357,29 @@
 
 		//alert("Stop");
 		//Now get the meetings that apply to the date range
+			
+				
+		for(var z = 0; z < studentDataObject.admins.length; z++)
+		{
+			if (adminList.indexOf(studentDataObject.admins[z]) === -1) {
+				console.log("push:" + studentDataObject.admins[z]);
+				adminList.push(studentDataObject.admins[z]);
+			}
+		}
+		for(var z = 0; z < studentDataObject.meetingCodes.length; z++)
+		{
+			if (codeList.indexOf(studentDataObject.meetingCodes[z]) === -1) {
+				console.log("push:" + studentDataObject.meetingCodes[z]);
+				codeList.push(studentDataObject.meetingCodes[z]);
+			}
+		}
+		//Also get the names of all admins and codes
 		for (i in studentDataObject.meetings) {
 			{
 				date = studentDataObject.meetings[i].date
 				time = studentDataObject.meetings[i].time
+				if( studentDataObject.meetings[i].id > maxMeetingId)
+					maxMeetingId = studentDataObject.meetings[i].id;
 				//Check the date before adding
 				if(compareDates( startDate, endDate, date))
 				{
@@ -439,7 +510,12 @@
 			cell.onclick = function() {
 				// Get the row id where the cell exists
 				var rowId = this.parentNode.rowIndex;
+				selectedCalendarRow = this.parentNode.rowIndex;
 				var cellId = this.cellIndex;
+				selectedCalendarCell = this.cellIndex;
+				newMeetingDate = table.rows.item(1).cells.item(this.cellIndex).innerHTML;
+				newMeetingTime = table.rows.item(this.parentNode.rowIndex).cells.item(0).innerHTML;
+				console.log('Selected calendar cell:' + this.parentNode.cellIndex);
 				selectedMeetingId = null;
 				var rowSelected = table.rows.item(rowId);
 				//console.log('Selected calendar rowId: ' + rowId + ":" + cellId + ":" + rowSelected.cells.length);
@@ -484,16 +560,38 @@
 					if (typeof selectedMeeting !== "undefined")
 					{
 						selectedMeetingId = selectedMeeting.id;
+						openForm(selectedMeetingId);
 						//console.log('selected meeting ID:' + selectedMeetingId);
 					}
 					else
-						selectedMeetingId = null;
+					{
+							selectedMeetingId = null;
+							openForm(newMeetingDate, newMeetingTime);
+					}
+
 				}//End else
 				console.log('selected meeting ID2:' + selectedMeetingId);
 			}
 		}
 	}
 
+	function addMeeting()
+	{
+		console.log('Add selected meeting ID:' + selectedMeetingId );
+		console.log('Add selectedCalendarRow:' + selectedCalendarRow);
+		console.log('Add selectedCalendarCell:' + selectedCalendarCell);
+		var table = document.getElementById('calendar-table2');
+		var date = table.rows.item(1).cells.item(selectedCalendarCell).innerHTML;
+		var timeSlot = table.rows.item(selectedCalendarRow).cells.item(0).innerHTML;
+		console.log('Meeting Specs:' + selectedCalendarCell + ":" + date + ":" + timeSlot);
+		openForm(date, timeSlot);
+		if (typeof selectedMeetingId === null)
+		{
+			//loadCalendarTable2()
+		}
+	}
+
+		
 	function deleteMeeting()
 	{
 		if (typeof selectedMeetingId !== "undefined" && selectedMeetingId !== null)
@@ -519,27 +617,39 @@
 			console.log('Review selected meeting ID:' + selectedMeetingId);
 	}
 
-	//Returns true is t1 is less than t2
-	function compareTimes()
-	{
-		//9:30 AM
-		console.log("COMP:" + arguments[0] + ":" + arguments[1] );
+
+	function militarizeTime()
+	{//01:00 PM to 1300
 		var t1 = arguments[0].split(" ");
-		var t2 = arguments[1].split(" ");
 		var res1 = t1[0].split(":");
-		var res2 = t2[0].split(":");
 		var n1 = parseInt(res1[0])*100 + parseInt(res1[1]);
-		var n2 = parseInt(res2[0])*100 + parseInt(res2[1]);
 		var string1 = "PM";
 		if( string1.localeCompare(t1[1]) == 0 )
 			n1 += 1200;
-		if( string1.localeCompare(t2[1]) == 0 )
-			n2 += 1200;
-		if( n1 < n2 )
-			return true;
-		return false;
+		if( arguments.length > 1 )
+		{
+			var tmBump = arguments[1];
+			console.log("n1:" + n1);
+			var minuteValue = (n1 % 100);//Get minutes
+			console.log("minuteValue:" + minuteValue);
+			var hrVal = n1 - minuteValue;//subtract minutes
+			console.log("hrVal:" + hrVal);
+			var z = ( (minuteValue/15) + tmBump );
+			console.log("z:" + z);
+			
+			while( z >= 4 )
+			{
+				hrVal += 100;
+				z -= 4;
+			}
+			hrVal += (z * 15);
+			n1 = hrVal;
+			console.log("tmBump:" + tmBump + ":" + n1);
+		}
+		return n1;
 	}
 
+	
 	//Returns true is t1 is less than t2
 	function calculateTime()
 	{
@@ -726,7 +836,258 @@
 		loadStudentTable();
 		cancelAdd();
 	}
+		//Form area
+	//openForm()
+	function openForm() 
+	{
+		
+		console.log("openForm:" + arguments[0]);
+		//First set the codes
+		var codeSelectList = document.getElementById("codeSelectList");
+		while(codeSelectList.length > 0)
+			codeSelectList.remove(0);
+		for( var x = 0; x < codeList.length; x++)
+		{
+			  var option = document.createElement("option");
+			  option.text = codeList[x];
+			  if( x == 0 )
+				  option.selected = true;
+			  codeSelectList.add(option);
+		}
+		//Add Admins
+		var adminSelectList = document.getElementById("adminSelectList");
+		while(adminSelectList.length > 0)
+			adminSelectList.remove(0);
+		console.log("adminList:" + adminList.length);
+		for( var x = 0; x < adminList.length; x++)
+		{
+			  var option = document.createElement("option");
+			  option.text = adminList[x];
+			  if( x == 0 )
+				  option.selected = true;
+			  adminSelectList.add(option);
+		}
+		//Add students
+		addToStudentList();
+		if( arguments.length == 2)
+		{
+			document.getElementById('meetingTime').value = arguments[1];
+			document.getElementById('meetingDate').value = arguments[0];
+			console.log("openForm no meeting:" + arguments[0]);
+			document.getElementById('addMeetingButton').textContent  = "Add Meeting";
+		}
+		else
+		{
+			console.log("openForm for meeting:" + arguments[0]);
+			var aMeeting = studentDataObject.meetings.find( record => record.id === arguments[0]);
+			document.getElementById('meetingTime').value = aMeeting.time;
+			document.getElementById('meetingDate').value = aMeeting.date;
+			document.getElementById('meetingCode').value = aMeeting.code;
+			document.getElementById('addMeetingButton').textContent  = "Update Meeting";
+			for( var x = 0; x < codeSelectList.length; x++)
+			{
+				console.log("option:" + codeSelectList[x].text);
+				if( aMeeting.code.localeCompare(codeSelectList[x].text)== 0)
+				{
+					codeSelectList[x].selected = true;
+				}
+				else
+					codeSelectList[x].selected = false;
+			}
+			var durationSelectList = document.getElementById("meetingDuration");
+			for( var x = 0; x < durationSelectList.length; x++)
+			{
+				//console.log("option:" + durationSelectList[x].text);
+				if( x == (aMeeting.timePeriods - 1) )
+				{
+					durationSelectList[x].selected = true;
+				}
+				else
+					durationSelectList[x].selected = false;
+			}
+		}
 
+		document.getElementById("myForm").style.display = "block";
+
+	}
+	function closeForm() 
+	{
+		console.log("close form");
+		document.getElementById("myForm").style.display = "none";
+	}
+	function addToStudentList() 
+	{
+		var idElement = document.getElementById("grade");
+		var selectedGrade = idElement.options[idElement.selectedIndex].value;
+		console.log("Grade:" + selectedGrade);
+		var selectList = document.getElementById("studentSelectList");
+		console.log("selectList:" + selectList.length);
+		while(selectList.length > 0)
+			selectList.remove(0);
+		var students = [];
+		console.log("All students:" + studentDataObject.students.length);
+		for( var x = 0; x < studentDataObject.students.length; x++)
+		{
+			if( selectedGrade.localeCompare(studentDataObject.students[x].grade) == 0)
+			{//Add the student
+				students.push(studentDataObject.students[x].lastName + ":" + studentDataObject.students[x].firstName + ":" + studentDataObject.students[x].id);
+			}
+		}
+		students = bubbleSort(students);
+		console.log("Grade students:" + students.length);
+		for( var x = 0; x < students.length; x++)
+		{
+			var studentStr = students[x].split(":");
+			  var option = document.createElement("option");
+			  option.text = studentStr[0] + "," + studentStr[1];
+			  option.value = studentStr[2];
+			  selectList.add(option);
+		}
+	}
+	function addMeeting2() 
+	{
+		
+		//Get the student(s)		
+		//var idElement = document.getElementById("studentSelectList");
+		//console.log("INDEX:" + idElement.selectedIndex);
+		//var selectedValue = idElement.options[idElement.selectedIndex].value;
+		var x=document.getElementById("studentSelectList");
+		console.log("LEN:" + x.options.length);
+		var studentIds = "";
+		for (var i = 0; i < x.options.length; i++) {
+			if(x.options[i].selected ==true){
+				if(studentIds.length > 0)
+					studentIds += ",";
+				console.log("Student:" + x.options[i].value + ":" + x.options[i].text);
+				studentIds += x.options[i].value;
+			}
+		}
+		//Get meeting code
+		var codeSelectList = document.getElementById("codeSelectList");
+		var selectedCodeValue = codeSelectList.options[codeSelectList.selectedIndex].value;
+		var durationSelectList = document.getElementById("meetingDuration");
+		var adminSelectList = document.getElementById("adminSelectList");
+		var selectedAdminValue = adminSelectList.options[adminSelectList.selectedIndex].value;
+
+		console.log("add meeting studentIds:" + studentIds);
+		console.log("add meeting Code:" + selectedCodeValue);
+		console.log("add meeting Date:" + newMeetingDate);
+		console.log("add meeting Time:" + newMeetingTime);
+		console.log("add meeting Duration:" + durationSelectList.selectedIndex);
+		console.log("add meeting admin:" + selectedAdminValue);
+		console.log("add meeting ID:" + maxMeetingId);
+		
+		//{"studentId":1001,"date":"02\/15\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":0,"time":"08:00 AM","timePeriods":1,"studentIDs":[1001]},
+
+		var tmpMeeting = JSON.stringify({
+				"studentId": 1001,
+				"date": newMeetingDate,
+				"code": selectedCodeValue,
+				"notes": "N/A",
+				"adminList":[selectedAdminValue],
+				"id": maxMeetingId + 1,
+				"time": newMeetingTime,
+				"timePeriods": durationSelectList.selectedIndex + 1,
+				"studentIDs":[studentIds]
+		});
+		
+		var meetingObject = JSON.parse(tmpMeeting);
+		console.log("validMeeting!!!" + validateNewMeeting(meetingObject));
+		
+		if( validateNewMeeting(meetingObject) === true)
+		{
+			console.log("validMeeting!!!");
+			studentDataObject.meetings.push(meetingObject);
+			loadCalendarTable2();
+			closeForm();
+		}
+		else
+			alert("Cannot load meeting as requested");
+	}
+	function validateNewMeeting(newMeetingObject)
+	{
+		console.log("validate meeting:" + newMeetingObject.time);
+		console.log("validate meeting:" + newMeetingObject.date);
+		console.log("validate meeting:" + newMeetingObject.timePeriods);
+		
+		var newBeginTime = militarizeTime(newMeetingObject.time);
+		var newEndTime = militarizeTime(newMeetingObject.time, newMeetingObject.timePeriods);
+		console.log("newTimes:" + newBeginTime + ":" + newEndTime);
+		
+		//var addT = newMeetingObject.timePeriods * 15;
+		//var outTime = militarizeTime(newMeetingObject.time) + parseInt(newMeetingObject.periods * 15);
+		//console.log("addT:" + addT);
+		//var tempMeetings = JSON.stringify({
+		//	meetings : []
+		//});
+		//var tempMeetingObject = JSON.parse( tempMeetings );
+		for( var x = 0; x < studentDataObject.meetings.length; x++)
+		{//			if( selectedGrade.localeCompare(studentDataObject.students[x].grade) == 0)
+			if(newMeetingObject.date == studentDataObject.meetings[x].date )
+			{
+				//tempMeetingObject.meetings.push(studentDataObject.meetings[x]);
+				var oldBeginTime = militarizeTime(studentDataObject.meetings[x].time);
+				var oldEndTime = militarizeTime(studentDataObject.meetings[x].time, studentDataObject.meetings[x].timePeriods);
+				console.log("oldTimes:" + oldBeginTime + ":" + oldEndTime);
+				if(newBeginTime >= oldEndTime)
+					continue;
+				if(newEndTime <= oldBeginTime)
+					continue;
+
+				if(newBeginTime == oldBeginTime )
+					return false;
+				if(newEndTime == oldEndTime )
+					return false;
+				if(newBeginTime > oldBeginTime || newBeginTime < oldEndTime)
+					return false;
+				if(newEndTime > oldBeginTime || newEndTime < oldEndTime)
+					return false;
+
+				//if( newBeginTime == oldBeginTime || newEndTime == oldEndTime)//start or end times match
+				//	validMeeting = false;
+				//if( oldBeginTime > newBeginTime && newBeginTime < oldEndTime)//start during
+				//	validMeeting = false;
+				//if( newBeginTime < oldEndTime && newEndTime <= oldBeginTime)//end during
+				//	validMeeting = false;
+			}
+		}
+		//console.log("tempMeetings:" + tempMeetingObject.meetings.length);
+		return true;
+	}
+
+	function bubbleSort()
+	{
+		var sortArray = arguments[0];
+		if( sortArray.length == 1)
+			return sortArray;
+		var sortComplete = 1;
+		while( sortComplete >= 1 )
+		{
+			//console.log('Begin:' + sortArray.length)
+			sortComplete = 0;
+			for( var x = 0; x < sortArray.length; x++ )
+			{
+				if( x >= sortArray.length - 1)
+				{
+					//console.log('BREAK');
+					continue;
+				}
+				//console.log('BBL:::::::' + sortArray[x][0] + ":" + sortArray[x + 1][0]);
+				if( sortArray[x][0] > sortArray[x + 1][0])
+				{
+					var obj1 = sortArray[x];
+					var obj2 = sortArray[x + 1];
+					sortArray[x] = obj2;
+					sortArray[x+1] = obj1;
+					//console.log('SWAP:::::::' + sortArray[x][0] + ":" + sortArray[x + 1][0] );
+					sortComplete = 1;
+				}
+			}
+			//console.log('BBL2:' + sortComplete);
+		}//End while
+		//console.log('BBL3:' + sortComplete);
+		return sortArray;
+	}
 </script>
 <script>
 </script>
