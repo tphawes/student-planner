@@ -63,9 +63,6 @@
 </table>
 
 <h2>Weekly Calendar</h2>
-<button onclick="deleteMeeting()" id="deleteMeetingButton">DeleteMeeting</button>
-<button onclick="updateMeeting()" id="updateMeetingButton">UpdateMeeting</button>
-<button onclick="addMeeting()" id="addMeetingButton1">AddMeeting</button>
 <table class="gt" id="calendar-table2" width="100%">
 	<thead>
     	<tr>
@@ -92,28 +89,40 @@
 
 
 <div class="form-popup" id="myForm">
+
   <form class="form-container">
-    <h1>Meeting Information</h1>
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter admin" id="meetingAdmin" value='Mary' required>
-    <input type="text" placeholder="Enter periods" id="meetingPeriods" value='1' required>
-    <input type="text" placeholder="Enter code" id="meetingCode" value='SST'  required>
-    <input type="text" id="meetingTime" required disabled>
-    <input type="text" id="meetingDate" required disabled>
-    
- <select name="grade" id="grade" size="8" onchange="addToStudentList()">
-<option value="8">8</option>
+  <div id="mydivheader">Meeting Information</div>
+    <input type="date" id="addUpdateDate" onChange=setCalendarDates()><br>
+    <input type="time" id="meetingTime" step="900" onchange="checkMeetingTime()" autocomplete=off>
+    <br />
+    <textarea id="meetingNotes" name="meetingNotes" rows="4" style="width:100%"></textarea>
+    <br />
+<label class="switch">
+  <input type="checkbox" id="tentativeSwitch">
+  Tentative<span class="slider"></span>
+</label>
+        <br />
+ <select name="grade" id="grade" size="10" onchange="addToStudentList()" label="Grade">
+ <optgroup label="Grade">
+  <option value="8">8</option>
   <option value="9" selected>9</option>
   <option value="10">10</option>
   <option value="11">11</option>
   <option value="12">12</option>
+  <option value="All">All</option>
+  </optgroup>
 </select>
-<select name="codeSelectList" id="codeSelectList" multiple size="8">
+<select name="codeSelectList" id="codeSelectList" multiple size="10">
+ <optgroup label="Code">
+  </optgroup>
 </select>
-<select name="adminSelectList" id="adminSelectList" multiple size="8">
+<select name="adminSelectList" id="adminSelectList" multiple size="10">
+ <optgroup label="Admin">
+ </optgroup>
 </select>
-<select name="meetingDuration" id="meetingDuration" multiple size="8">
-  <option value="1" selected>15</option>
+<select name="meetingDuration" id="meetingDuration" multiple size="10">
+ <optgroup label="Length">
+  <option value="1">15</option>
   <option value="2">30</option>
   <option value="3">45</option>
   <option value="4">60</option>
@@ -121,11 +130,16 @@
   <option value="6">90</option>
   <option value="7">105</option>
   <option value="8">120</option>
+    </optgroup>
 </select>
 <select name="studentSelectList" id="studentSelectList" multiple size="10">
+<optgroup label="Students">
+ <option value="None" selected>None</option>
+    </optgroup>
 </select>
-
+<br />
     <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+    <button type="button" onclick="deleteMeeting()" id="deleteMeetingButton">DeleteMeeting</button>
     <button type="button" class="btn add" id="addMeetingButton" value="Add" onclick="addMeeting2()"></button>
   </form>
 </div>
@@ -146,7 +160,31 @@
 	//JSON.parse(JSON.stringify({
 	//	"meetings" : []
 	//}));
-
+	
+	function checkMeetingTime()
+	{
+		console.log("TIME:" + document.getElementById("meetingTime").value );
+		//var timeVal =  document.getElementById("meetingTime").value;
+		//var minVal = timeVal.split(":")[1];
+		//console.log("minVal:" + minVal );
+		//if( (minVal % 15) == 0)
+		//	return;
+		//if( minVal > 45 )
+		//	minVal = 45;
+		//else if( minVal > 30 )
+		//	minVal = 30;
+		//else if( minVal > 15 )
+		//	minVal = 15;
+		//else
+		//	minVal = 00;
+		//console.log("minVal:" + minVal );
+		//console.log("Val:" + timeVal.split(":")[0] + ":" + minVal );
+		//document.getElementById("meetingTime").value = timeVal.split(":")[0] + ":" + minVal;
+	}
+	function checkTime(timeIn)
+	{
+		console.log("TIME:" + timeIn );
+	}
 	//This is a test space for any and everything
 	function testFunction()
 	{
@@ -200,6 +238,18 @@
 		  console.log("DF:" + dateFormatter(today) );
 		  document.getElementById("dateInput").value = dateFormatter(today);
 	}
+	function getTodaysDate()
+	{
+		var today = new Date();
+		var mnth = today.getMonth() + 1;
+		var dVal = today.getDate();
+		if( dVal < 10)
+			dVal = '0' + dVal;
+		var mVal = today.getMonth() + 1;
+		if( mVal < 10)
+			mVal = '0' + mVal;
+		return today.getFullYear() + "-" + mVal + "-" + dVal;
+	}
 	window.onload = function() 
 	{
 		var today = new Date();
@@ -210,7 +260,7 @@
 		var mVal = today.getMonth() + 1;
 		if( mVal < 10)
 			mVal = '0' + mVal;
-		document.getElementById("dateInput").value = today.getFullYear() + "-" + mVal + "-" + dVal;
+		document.getElementById("dateInput").value = getTodaysDate();
 		setCalendarDates();
 	}
 	function studentsLoaded()
@@ -240,6 +290,10 @@
 		return false;
 	}
 	
+	function dateStringFormatter( dateIn )
+	{//2021-02-22 to 02/22/2021
+		return dateIn.split("-")[1] + "/" + dateIn.split("-")[2] + "/" + dateIn.split("-")[0];
+	}
 
 	function dateFormatter()
 	{
@@ -383,7 +437,7 @@
 				//Check the date before adding
 				if(compareDates( startDate, endDate, date))
 				{
-					console.log("Adding:" + date + ":" + time + ":" + weeksMeetingObject.meetings.length);
+					//console.log("Adding:" + date + ":" + time + ":" + weeksMeetingObject.meetings.length);
 					weeksMeetingObject.meetings.push(studentDataObject.meetings[i]);
 				}
 			}
@@ -459,24 +513,29 @@
 						
 
 						var dtIndex = dateStrings.indexOf(id.date) + 1;
-						var studentNameStr = id.code + ":";
+						var meetingInformationStr = "Code:" + id.code;
+						console.log("id.studentIDs.length:" + id.studentIDs.length);
+						if( id.studentIDs.length > 0 )
+							meetingInformationStr += "|Students:";
 						for(var z = 0; z < id.studentIDs.length; z++)
 						{
 							var studentMatch = studentDataObject.students.find( record => record.id === Number(id.studentIDs[z]));
-							studentNameStr += studentMatch.lastName + ":";
+							meetingInformationStr += studentMatch.lastName + ":";
 						}
+						if( id.adminList.length > 0 )
+							meetingInformationStr += "|Admins:";
 						for(var z = 0; z < id.adminList.length; z++)
 						{
-							studentNameStr += id.adminList[z];
+							meetingInformationStr += id.adminList[z];
 						}
 
-						console.log('Match?' + id.time + ":" + id.date + ":" + timeValueMatch + ":" + dtIndex + ":" + studentNameStr + ":" + id.studentIDs.length);
+						//console.log('Match?' + id.time + ":" + id.date + ":" + timeValueMatch + ":" + dtIndex + ":" + meetingInformationStr + ":" + id.studentIDs.length);
 						//var newCell = newRow.insertCell(dtIndex);
 						var newCell = newRow.cells[dtIndex];
 						newCell.rowSpan = id.timePeriods;
-						newCell.innerHTML = studentNameStr;
+						newCell.innerHTML = meetingInformationStr;
 						//newRow.cells[dtIndex].rowSpan = id.timePeriods;
-						//newRow.cells[dtIndex].innerHTML = studentNameStr;
+						//newRow.cells[dtIndex].innerHTML = meetingInformationStr;
 						skipCells[dateStrings.indexOf(id.date)] = id.timePeriods - 1;
 
 						var locationString = newRow.rowIndex + ":" + dtIndex;
@@ -484,7 +543,7 @@
 							"location" : locationString,
 							"id" : id.id
 						});
-						console.log('idx:' + locationString + ":" + id.id + ":" + newRow.cells.length);
+						//console.log('idx:' + locationString + ":" + id.id + ":" + newRow.cells.length);
 						meetingMapObject.meetings.push(JSON.parse(tmpMessage));
 					}
 					removeNode( weeksMeetingObject, id.id);
@@ -597,27 +656,69 @@
 		if (typeof selectedMeetingId !== "undefined" && selectedMeetingId !== null)
 		{
 			console.log('Delete selected meeting ID:' + selectedMeetingId + ":" + studentDataObject.meetings.length);
-			var aMeeting = studentDataObject.meetings.find( record => record.id === selectedMeetingId);
-			//console.log('Delete selected meeting ID:' + aMeeting.time);
 			var index = studentDataObject.meetings.findIndex(obj => obj.id==selectedMeetingId);
 			console.log("INDEX:" + index);
 			studentDataObject.meetings.splice(index,1);
 			console.log('Delete selected meeting ID:' + selectedMeetingId + ":" + studentDataObject.meetings.length);
 			//If we have a valid meeting we need to delete and load the calendar table
-			loadCalendarTable2()
+			loadCalendarTable2();
 		}
+		closeForm();
 	}
 
-	function updateMeeting()
-	{
-			console.log('Update selected meeting ID:' + selectedMeetingId);
-	}
+
 	function reviewMeeting()
 	{
 			console.log('Review selected meeting ID:' + selectedMeetingId);
 	}
 
+	function militaryTimeEquiv()
+	{//01:00 PM to 13:00:00
+		var t1 = arguments[0].split(" ");
+		var res1 = t1[0].split(":");
+		var hr = parseInt(res1[0]);
+		var min = parseInt(res1[1]);
+		var string1 = "PM";
+		if( string1.localeCompare(t1[1]) == 0 && hr != 12)
+			hr += 12;
+		var hrVal = "";
+		var minVal = "";
+		if( hr < 10 )
+			hrVal = "0" + hr;
+		else
+			hrVal = hr;
+		if( min < 10 )
+			minVal = "0" + min;
+		else
+			minVal = min;
 
+		return hrVal + ":" + minVal + ":" + "00";
+	}
+
+	function toStandardTime(militaryTime) {
+		console.log("toStandardTime:" + militaryTime);
+	    militaryTime = militaryTime.split(':');
+	    //Treat as strings & characters
+		var hrVal = militaryTime[0];
+		var minVal = militaryTime[1];
+		//Assume it is am
+		var dpStr = " AM";
+		if (militaryTime[0].charAt(0) == 1 && militaryTime[0].charAt(1) >= 2)
+			dpStr = " PM";
+		console.log("hrVal:" + hrVal.length + ":" + hrVal + ":" + minVal + ":" + dpStr);
+		if (hrVal.charAt(0) == 1 && hrVal.charAt(1) > 2)
+		{
+			var hr2 = hrVal.charAt(1);
+			console.log("hr2:" + hr2);
+			hr2 = hr2 - 2;
+			console.log("hr2:" + hr2);
+			hrVal = '0' + hr2;
+		}
+		
+		console.log("hrVal:" + hrVal.length + ":" + hrVal + ":" + minVal + ":" + dpStr);
+		return hrVal + ":" + minVal + dpStr;
+	    //return (militaryTime[0].charAt(0) == 1 && militaryTime[0].charAt(1) > 2) ? (militaryTime[0] - 12) + ':' + militaryTime[1] + ' PM' : militaryTime.join(':') + ' AM'
+	}
 	function militarizeTime()
 	{//01:00 PM to 1300
 		var t1 = arguments[0].split(" ");
@@ -629,13 +730,13 @@
 		if( arguments.length > 1 )
 		{
 			var tmBump = arguments[1];
-			console.log("n1:" + n1);
+			//console.log("n1:" + n1);
 			var minuteValue = (n1 % 100);//Get minutes
-			console.log("minuteValue:" + minuteValue);
+			//console.log("minuteValue:" + minuteValue);
 			var hrVal = n1 - minuteValue;//subtract minutes
-			console.log("hrVal:" + hrVal);
+			//console.log("hrVal:" + hrVal);
 			var z = ( (minuteValue/15) + tmBump );
-			console.log("z:" + z);
+			//console.log("z:" + z);
 			
 			while( z >= 4 )
 			{
@@ -644,7 +745,7 @@
 			}
 			hrVal += (z * 15);
 			n1 = hrVal;
-			console.log("tmBump:" + tmBump + ":" + n1);
+			//console.log("tmBump:" + tmBump + ":" + n1);
 		}
 		return n1;
 	}
@@ -842,6 +943,11 @@
 	{
 		
 		console.log("openForm:" + arguments[0]);
+		document.getElementById("addUpdateDate").value = getTodaysDate();
+
+		//var today = new Date();
+		//console.log("DF:" + dateFormatter(today) );
+		//document.getElementById("addUpdateDate").value = today.getFullYear() + "-" + mVal + "-" + dVal;
 		//First set the codes
 		var codeSelectList = document.getElementById("codeSelectList");
 		while(codeSelectList.length > 0)
@@ -850,60 +956,154 @@
 		{
 			  var option = document.createElement("option");
 			  option.text = codeList[x];
-			  if( x == 0 )
-				  option.selected = true;
+			  //if( x == 0 )
+				//  option.selected = true;
 			  codeSelectList.add(option);
 		}
 		//Add Admins
 		var adminSelectList = document.getElementById("adminSelectList");
 		while(adminSelectList.length > 0)
 			adminSelectList.remove(0);
+		var option = document.createElement("option");
+		option.text = "None";
+		adminSelectList.add(option);
+		//option.selected = true;
 		console.log("adminList:" + adminList.length);
 		for( var x = 0; x < adminList.length; x++)
 		{
 			  var option = document.createElement("option");
 			  option.text = adminList[x];
-			  if( x == 0 )
-				  option.selected = true;
+			  //if( x == 0 )
+			//	  option.selected = true;
 			  adminSelectList.add(option);
 		}
 		//Add students
 		addToStudentList();
+		//First for new meeting
 		if( arguments.length == 2)
 		{
-			document.getElementById('meetingTime').value = arguments[1];
-			document.getElementById('meetingDate').value = arguments[0];
-			console.log("openForm no meeting:" + arguments[0]);
+			document.getElementById('meetingTime').value = militaryTimeEquiv(arguments[1]);
+			
+			var dtVal = arguments[0].split("/")[2] + "-" + arguments[0].split("/")[0] + "-" + arguments[0].split("/")[1];
+			document.getElementById("addUpdateDate").value = dtVal;
+			console.log("openForm no meeting:" + arguments[0] + ":" + dtVal);
 			document.getElementById('addMeetingButton').textContent  = "Add Meeting";
+			document.getElementById('meetingTime').disabled = true;
+			document.getElementById('addUpdateDate').disabled = true;
+			document.getElementById('tentativeSwitch').checked = false;
+
 		}
-		else
+		else if( arguments.length == 1)
 		{
 			console.log("openForm for meeting:" + arguments[0]);
-			var aMeeting = studentDataObject.meetings.find( record => record.id === arguments[0]);
-			document.getElementById('meetingTime').value = aMeeting.time;
-			document.getElementById('meetingDate').value = aMeeting.date;
-			document.getElementById('meetingCode').value = aMeeting.code;
+			var selectedMeeting = studentDataObject.meetings.find( record => record.id === arguments[0]);
+			document.getElementById('meetingTime').value = militaryTimeEquiv(selectedMeeting.time);
+			var dtVal = selectedMeeting.date.split("/")[2] + "-" + selectedMeeting.date.split("/")[0] + "-" + selectedMeeting.date.split("/")[1];
+			document.getElementById("addUpdateDate").value = dtVal;
+
 			document.getElementById('addMeetingButton').textContent  = "Update Meeting";
+			document.getElementById('meetingNotes').value = selectedMeeting.notes;
+			document.getElementById('meetingTime').disabled = false;
+			document.getElementById('addUpdateDate').disabled = false;
+
+			//Set the tentative indicator
+			console.log("TENTATIVE:" + selectedMeeting.tentative);
+			if( selectedMeeting.tentative )
+			{
+				document.getElementById('tentativeSwitch').checked = true;
+				//alert("ttt");
+			}
+			else
+				document.getElementById('tentativeSwitch').checked = false;
+			//Set the selected code
 			for( var x = 0; x < codeSelectList.length; x++)
 			{
 				console.log("option:" + codeSelectList[x].text);
-				if( aMeeting.code.localeCompare(codeSelectList[x].text)== 0)
+				if( selectedMeeting.code.localeCompare(codeSelectList[x].text)== 0)
 				{
 					codeSelectList[x].selected = true;
 				}
 				else
 					codeSelectList[x].selected = false;
 			}
+			//Set the meeting length
 			var durationSelectList = document.getElementById("meetingDuration");
 			for( var x = 0; x < durationSelectList.length; x++)
 			{
 				//console.log("option:" + durationSelectList[x].text);
-				if( x == (aMeeting.timePeriods - 1) )
+				if( x == (selectedMeeting.timePeriods - 1) )
 				{
 					durationSelectList[x].selected = true;
 				}
 				else
 					durationSelectList[x].selected = false;
+			}
+			//Set the selected admin(s)
+			var adminSelectList = document.getElementById("adminSelectList");
+			for( var x = 0; x < adminSelectList.length; x++)
+			{
+				if( selectedMeeting.adminList.length > 0 )
+				{
+					for( var y = 0; y < selectedMeeting.adminList.length; y++)
+					{	
+						console.log("admin:" + selectedMeeting.adminList[y]);
+						if( selectedMeeting.adminList[y].localeCompare(adminSelectList[x].text)== 0)
+							adminSelectList[x].selected = true;
+					}
+				}
+				else
+					adminSelectList[x].selected = false;
+			}
+			//Now set selected students
+			var studentSelectList = document.getElementById("studentSelectList");
+			//First see what grade(s) we are dealing with as we may need to reset the list
+			var grades = [];
+			for( var x = 0; x < selectedMeeting.studentIDs.length; x++)
+			{
+				var studentMatch = studentDataObject.students.find( record => record.id === selectedMeeting.studentIDs[x]);
+
+			
+				if (grades.indexOf(studentMatch.grade) === -1) {
+					console.log("push:" + studentMatch.grade);
+					grades.push(studentMatch.grade);
+				}
+			}
+			if(grades.length > 0)
+			{
+				console.log("new selected grade:" + grades.length + ":" + grades[0]);
+				//If one just select that grade and do student list again
+				var gradeMatch = grades[0];
+				if(grades.length > 1)
+					gradeMatch = "All";
+				//Set the meeting length
+				console.log("new selected grade:" + gradeMatch);
+				var gradeSelectList = document.getElementById("grade");
+				for( var x = 0; x < gradeSelectList.length; x++)
+				{
+					if( gradeMatch.localeCompare(gradeSelectList[x].text) == 0)
+					{
+						console.log("new selected grade?:" + gradeSelectList[x].text);
+						gradeSelectList[x].selected = true;
+					}
+					else
+						gradeSelectList[x].selected = false;
+				}
+				//Now reset the student list
+				addToStudentList();
+				//for( var x = 0; x < studentSelectList.length; x++)
+				//{
+				//	if( selectedMeeting.studentIDs.length > 0 )
+				//	{
+				//		for( var y = 0; y < selectedMeeting.studentIDs.length; y++)
+				//		{	
+				//			console.log("studentId:" + selectedMeeting.studentIDs[y]);
+				//			if( selectedMeeting.studentIDs[y] == studentSelectList[x].value )
+				//				studentSelectList[x].selected = true;
+				//		}
+				//	}
+				//	else
+				//		studentSelectList[x].selected = false;
+				//}
 			}
 		}
 
@@ -917,6 +1117,20 @@
 	}
 	function addToStudentList() 
 	{
+		console.log("addToStudentList:" + studentSelected());
+		var studentIds = [];
+		if ( typeof selectedMeetingId !== undefined && selectedMeetingId !== null)
+		{
+			console.log("selectedMeetingId:" + selectedMeetingId);
+		
+			var meeting = studentDataObject.meetings.find(obj => obj.id== selectedMeetingId);
+			for(var x = 0; x < meeting.studentIDs.length; x++ )
+			{
+				studentIds.push(meeting.studentIDs[x]);
+			}
+			//loadCalendarTable2()
+		}
+		console.log("addToStudentList:" + studentIds.length);
 		var idElement = document.getElementById("grade");
 		var selectedGrade = idElement.options[idElement.selectedIndex].value;
 		console.log("Grade:" + selectedGrade);
@@ -924,11 +1138,19 @@
 		console.log("selectList:" + selectList.length);
 		while(selectList.length > 0)
 			selectList.remove(0);
+		var option = document.createElement("option");
+		option.text = "None";
+		//option.selected = true;
+		selectList.add(option);
 		var students = [];
-		console.log("All students:" + studentDataObject.students.length);
+		console.log("All students:" + studentDataObject.students.length + ":" + selectedGrade);
 		for( var x = 0; x < studentDataObject.students.length; x++)
 		{
-			if( selectedGrade.localeCompare(studentDataObject.students[x].grade) == 0)
+			if(selectedGrade.localeCompare("All") == 0 )
+			{
+				students.push(studentDataObject.students[x].lastName + ":" + studentDataObject.students[x].firstName + ":" + studentDataObject.students[x].id);
+			}
+			else if( selectedGrade.localeCompare(studentDataObject.students[x].grade) == 0)
 			{//Add the student
 				students.push(studentDataObject.students[x].lastName + ":" + studentDataObject.students[x].firstName + ":" + studentDataObject.students[x].id);
 			}
@@ -938,28 +1160,48 @@
 		for( var x = 0; x < students.length; x++)
 		{
 			var studentStr = students[x].split(":");
-			  var option = document.createElement("option");
-			  option.text = studentStr[0] + "," + studentStr[1];
-			  option.value = studentStr[2];
-			  selectList.add(option);
+			var option = document.createElement("option");
+			option.text = studentStr[0] + "," + studentStr[1];
+			option.value = studentStr[2];
+			for( var y = 0; y < studentIds.length; y++)
+			{
+				if( studentIds[y] == parseInt(studentStr[2]))
+					option.selected = true;
+			}
+			selectList.add(option);
 		}
 	}
 	function addMeeting2() 
 	{
 		
-		//Get the student(s)		
-		//var idElement = document.getElementById("studentSelectList");
-		//console.log("INDEX:" + idElement.selectedIndex);
-		//var selectedValue = idElement.options[idElement.selectedIndex].value;
 		var x=document.getElementById("studentSelectList");
 		console.log("LEN:" + x.options.length);
-		var studentIds = "";
+		//var studentIds = "";
+		var studentIds = [];
+
 		for (var i = 0; i < x.options.length; i++) {
 			if(x.options[i].selected ==true){
-				if(studentIds.length > 0)
-					studentIds += ",";
-				console.log("Student:" + x.options[i].value + ":" + x.options[i].text);
-				studentIds += x.options[i].value;
+				//if(studentIds.length > 0)
+				//	studentIds += ",";
+				if( x.options[i].value.localeCompare("None") !== 0)
+				{
+					console.log("Student:" + x.options[i].value + ":" + x.options[i].text);
+					studentIds.push(parseInt(x.options[i].value));
+				}
+			}
+		}
+		var x=document.getElementById("adminSelectList");
+		console.log("LEN:" + x.options.length);
+		var adminList = [];
+		for (var i = 0; i < x.options.length; i++) {
+			if(x.options[i].selected ==true){
+				//if(adminList.length > 0)
+				//	adminList += ",";
+				if( x.options[i].value.localeCompare("None") !== 0)
+				{
+					console.log("Admin:" + x.options[i].value + ":" + x.options[i].text);
+					adminList.push(x.options[i].value);
+				}
 			}
 		}
 		//Get meeting code
@@ -967,65 +1209,118 @@
 		var selectedCodeValue = codeSelectList.options[codeSelectList.selectedIndex].value;
 		var durationSelectList = document.getElementById("meetingDuration");
 		var adminSelectList = document.getElementById("adminSelectList");
-		var selectedAdminValue = adminSelectList.options[adminSelectList.selectedIndex].value;
+		var notes = document.getElementById("meetingNotes").value;
+		var tentative = document.getElementById('tentativeSwitch').checked;
 
 		console.log("add meeting studentIds:" + studentIds);
 		console.log("add meeting Code:" + selectedCodeValue);
 		console.log("add meeting Date:" + newMeetingDate);
 		console.log("add meeting Time:" + newMeetingTime);
 		console.log("add meeting Duration:" + durationSelectList.selectedIndex);
-		console.log("add meeting admin:" + selectedAdminValue);
+		console.log("add meeting admin:" + adminList);
 		console.log("add meeting ID:" + maxMeetingId);
-		
-		//{"studentId":1001,"date":"02\/15\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":0,"time":"08:00 AM","timePeriods":1,"studentIDs":[1001]},
+		console.log("add meeting tentative:" + tentative);
 
-		var tmpMeeting = JSON.stringify({
-				"studentId": 1001,
-				"date": newMeetingDate,
-				"code": selectedCodeValue,
-				"notes": "N/A",
-				"adminList":[selectedAdminValue],
-				"id": maxMeetingId + 1,
-				"time": newMeetingTime,
-				"timePeriods": durationSelectList.selectedIndex + 1,
-				"studentIDs":[studentIds]
-		});
-		
-		var meetingObject = JSON.parse(tmpMeeting);
-		console.log("validMeeting!!!" + validateNewMeeting(meetingObject));
-		
-		if( validateNewMeeting(meetingObject) === true)
+		if ( typeof selectedMeetingId !== undefined && selectedMeetingId !== null)
 		{
-			console.log("validMeeting!!!");
-			studentDataObject.meetings.push(meetingObject);
-			loadCalendarTable2();
-			closeForm();
+			console.log("UPDATE:");
+			console.log("!!!!!studentDataObject.meetings:" + studentDataObject.meetings.length);
+			var meetingObject = studentDataObject.meetings.find(obj => obj.id== selectedMeetingId);
+			const cloneMeetingObject = JSON.parse(JSON.stringify(meetingObject));
+
+			//console.log("validMeeting a:" + JSON.stringify(meetingObject));
+			//console.log("validMeeting a:" + JSON.stringify(cloneMeetingObject));
+
+			var mTime = document.getElementById('meetingTime').value;
+			//checkTime(mTime);
+			//console.log("UPDATE time1:" + mTime);
+			//console.log("UPDATE time2:" + toStandardTime(document.getElementById('meetingTime').value));
+			//console.log("UPDATE date:" + dateStringFormatter(document.getElementById("addUpdateDate").value));
+			//console.log("UPDATE time3:" + meetingObject.time);
+			//console.log("UPDATE date4:" + meetingObject.date);
+			
+
+			cloneMeetingObject.time = toStandardTime(document.getElementById('meetingTime').value);
+			cloneMeetingObject.date = dateStringFormatter(document.getElementById("addUpdateDate").value);
+			cloneMeetingObject.code = selectedCodeValue;
+			cloneMeetingObject.notes = notes;
+			cloneMeetingObject.timePeriods = durationSelectList.selectedIndex + 1;
+			cloneMeetingObject.studentIDs = studentIds;
+			cloneMeetingObject.adminList = adminList;
+			cloneMeetingObject.tentative = tentative;
+			//console.log("validMeeting b:" + JSON.stringify(cloneMeetingObject));
+			//alert("Cannot load meeting as requested");
+			if( validateNewMeeting(cloneMeetingObject, selectedMeetingId) !== true )
+			{
+				alert("Cannot update meeting as requested");
+			}
+			else
+			{
+				//alert("Validated");
+			
+				//Need to update meetingObject to match cloneMeetingObject
+				meetingObject.time = cloneMeetingObject.time;
+				meetingObject.date = cloneMeetingObject.date;
+				meetingObject.code = selectedCodeValue;
+				meetingObject.notes = notes;
+				meetingObject.timePeriods = durationSelectList.selectedIndex + 1;
+				meetingObject.studentIDs = studentIds;
+				meetingObject.adminList = adminList;
+				meetingObject.tentative = tentative;
+				loadCalendarTable2();
+				closeForm();
+				console.log("!!!!!studentDataObject.meetings:" + studentDataObject.meetings.length);
+				return;
+			}
 		}
 		else
-			alert("Cannot load meeting as requested");
+		{
+			var tmpMeeting = JSON.stringify({
+					"studentId": 1001,
+					"date": newMeetingDate,
+					"code": selectedCodeValue,
+					"notes": "N/A",
+					"adminList":adminList,
+					"id": maxMeetingId + 1,
+					"time": newMeetingTime,
+					"timePeriods": durationSelectList.selectedIndex + 1,
+					"studentIDs":studentIds
+			});
+		
+			var meetingObject = JSON.parse(tmpMeeting);
+			console.log("validMeeting1:" + JSON.stringify(meetingObject));
+			console.log("validMeeting2:" + validateNewMeeting(meetingObject));
+		
+			if( validateNewMeeting(meetingObject, -1) === true)
+			{
+				console.log("validMeeting!!!");
+				studentDataObject.meetings.push(meetingObject);
+				loadCalendarTable2();
+				closeForm();
+			}
+			else
+			{
+				alert("Cannot load meeting as requested");
+			}
+		}
 	}
-	function validateNewMeeting(newMeetingObject)
+	function validateNewMeeting(newMeetingObject, selectedMeetingId)
 	{
 		console.log("validate meeting:" + newMeetingObject.time);
 		console.log("validate meeting:" + newMeetingObject.date);
 		console.log("validate meeting:" + newMeetingObject.timePeriods);
-		
 		var newBeginTime = militarizeTime(newMeetingObject.time);
 		var newEndTime = militarizeTime(newMeetingObject.time, newMeetingObject.timePeriods);
 		console.log("newTimes:" + newBeginTime + ":" + newEndTime);
-		
-		//var addT = newMeetingObject.timePeriods * 15;
-		//var outTime = militarizeTime(newMeetingObject.time) + parseInt(newMeetingObject.periods * 15);
-		//console.log("addT:" + addT);
-		//var tempMeetings = JSON.stringify({
-		//	meetings : []
-		//});
-		//var tempMeetingObject = JSON.parse( tempMeetings );
 		for( var x = 0; x < studentDataObject.meetings.length; x++)
 		{//			if( selectedGrade.localeCompare(studentDataObject.students[x].grade) == 0)
 			if(newMeetingObject.date == studentDataObject.meetings[x].date )
 			{
-				//tempMeetingObject.meetings.push(studentDataObject.meetings[x]);
+				if( studentDataObject.meetings[x].id == selectedMeetingId)
+				{//Dont need to compare existing meeting to self
+					console.log("Dont compare to self:");
+					continue;
+				}
 				var oldBeginTime = militarizeTime(studentDataObject.meetings[x].time);
 				var oldEndTime = militarizeTime(studentDataObject.meetings[x].time, studentDataObject.meetings[x].timePeriods);
 				console.log("oldTimes:" + oldBeginTime + ":" + oldEndTime);
@@ -1033,7 +1328,6 @@
 					continue;
 				if(newEndTime <= oldBeginTime)
 					continue;
-
 				if(newBeginTime == oldBeginTime )
 					return false;
 				if(newEndTime == oldEndTime )
@@ -1042,16 +1336,8 @@
 					return false;
 				if(newEndTime > oldBeginTime || newEndTime < oldEndTime)
 					return false;
-
-				//if( newBeginTime == oldBeginTime || newEndTime == oldEndTime)//start or end times match
-				//	validMeeting = false;
-				//if( oldBeginTime > newBeginTime && newBeginTime < oldEndTime)//start during
-				//	validMeeting = false;
-				//if( newBeginTime < oldEndTime && newEndTime <= oldBeginTime)//end during
-				//	validMeeting = false;
 			}
 		}
-		//console.log("tempMeetings:" + tempMeetingObject.meetings.length);
 		return true;
 	}
 
@@ -1090,6 +1376,7 @@
 	}
 </script>
 <script>
+
 </script>
 	<script>
 	if (window.File && window.FileReader && window.FileList && window.Blob) {

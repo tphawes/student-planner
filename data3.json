@@ -6,19 +6,12 @@
 {"firstName":"Clement","lastName":"Casey","dob":"10\/12\/2007","grade":"9","id":1004,"status":"enrolled"},
 ],
 "meetings":[
-{"studentId":1001,"date":"02\/15\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":0,"time":"08:00 AM","timePeriods":1,"studentIDs":[1001]},
-{"studentId":1001,"date":"02\/16\/2021","code":"SST","notes":"We met","adminList":[],"id":1,"time":"08:00 AM","timePeriods":2,"studentIDs":[]},
-{"studentId":1001,"date":"02\/17\/2021","code":"SST","notes":"We met","adminList":[],"id":2,"time":"08:00 AM","timePeriods":3,"studentIDs":[]},
-{"studentId":1001,"date":"02\/18\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":3,"time":"08:00 AM","timePeriods":4,"studentIDs":[1001]},
-{"studentId":1003,"date":"02\/19\/2021","code":"504","notes":"We met","adminList":[],"id":4,"time":"08:00 AM","timePeriods":1,"studentIDs":[1003]},
-{"studentId":1003,"date":"02\/15\/2021","code":"SST","notes":"We met","adminList":[],"id":5,"time":"09:00 AM","timePeriods":2,"studentIDs":[]},
-{"studentId":1003,"date":"02\/16\/2021","code":"504","notes":"We met","adminList":[],"id":6,"time":"09:00 AM","timePeriods":3,"studentIDs":[1003]},
-{"studentId":1003,"date":"02\/17\/2021","code":"504","notes":"We met","adminList":[],"id":7,"time":"09:00 AM","timePeriods":4,"studentIDs":[1003,1004]},
-{"studentId":1003,"date":"02\/18\/2021","code":"Admin","notes":"We met","adminList":["Malcolm"],"id":8,"time":"09:00 AM","timePeriods":5,"studentIDs":[]},
-{"studentId":1003,"date":"02\/19\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":9,"time":"09:00 AM","timePeriods":6,"studentIDs":[1003]}
+{"studentId":1001,"date":"02\/22\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":0,"time":"08:00 AM","timePeriods":1,"studentIDs":[1001],"tentative":true},
+{"studentId":1001,"date":"02\/22\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":1,"time":"01:00 PM","timePeriods":1,"studentIDs":[1001],"tentative":true},
+
 ],
 "meetingCodes":["Scheduling", "SST", "504", "Admin"
 ],
-"admins":["Maicolm", "Jen W."
+"admins":["Malcolm", "Jen W."
 ]
 }

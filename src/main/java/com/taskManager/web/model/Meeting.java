@@ -14,9 +14,10 @@ public class Meeting {
 	private String date;
 	private String time;
 	private int timePeriods;//The number of 15 minute increments
+	private boolean tentative;
 	private List <Integer> studentList = new ArrayList <Integer>();
 	private List <String> adminList = new ArrayList <String>();
-	public Meeting(int id, int studentId, String code, String notes, String date, String time, int timePeriods, List<Integer> studentList, List<String> adminList ) {
+	public Meeting(int id, int studentId, String code, String notes, String date, String time, int timePeriods, boolean tentative, List<Integer> studentList, List<String> adminList ) {
 		super();
 		this.id = id;
 		this.studentId = studentId;
@@ -24,6 +25,7 @@ public class Meeting {
 		this.notes = notes;
 		this.date = date;
 		this.time = time;
+		this.tentative = tentative;
 		this.timePeriods = timePeriods;
 		this.studentList = studentList;
 		this.adminList = adminList;
@@ -64,6 +66,30 @@ public class Meeting {
 	public void setTime(String time) {
 		this.time = time;
 	}
+	public int getTimePeriods() {
+		return timePeriods;
+	}
+	public void setTimePeriods(int timePeriods) {
+		this.timePeriods = timePeriods;
+	}
+	public boolean isTentative() {
+		return tentative;
+	}
+	public void setTentative(boolean tentative) {
+		this.tentative = tentative;
+	}
+	public List<Integer> getStudentList() {
+		return studentList;
+	}
+	public void setStudentList(List<Integer> studentList) {
+		this.studentList = studentList;
+	}
+	public List<String> getAdminList() {
+		return adminList;
+	}
+	public void setAdminList(List<String> adminList) {
+		this.adminList = adminList;
+	}
 	public JSONObject toJSON() {
         JSONObject obj = new JSONObject();
         obj.put("id",this.getId());
@@ -73,6 +99,7 @@ public class Meeting {
         obj.put("date",this.date);
         obj.put("time",this.time);
         obj.put("timePeriods",this.timePeriods);
+        obj.put("tentative",this.tentative);
         JSONArray array = new JSONArray();
         for (int i = 0; i < this.studentList.size(); i++) {
                 array.add(studentList.get(i));

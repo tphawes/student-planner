@@ -120,7 +120,12 @@ public class TestJStudents {
                 		if( rand.nextInt(5) >= 4 )
                 			list.add(aStudent.getId()+1);
             		}
-            		Meeting aMeeting = new Meeting(meetingId++, aStudent.getId(), codeVal, "We met", aDate, aTime, tmPds, list, adminList);
+            		boolean tentative = false;
+            		if( rand.nextInt(1) == 1 )
+            		{
+            			tentative = true;
+            		}
+            		Meeting aMeeting = new Meeting(meetingId++, aStudent.getId(), codeVal, "We met", aDate, aTime, tmPds, tentative, list, adminList);
             		meetingArray.add(aMeeting.toJSON());
             		meetingTimes.add(aDate + aTime);
             		//System.out.println("Meeting:" + aMeeting.toJSON().toString() );
