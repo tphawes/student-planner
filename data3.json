@@ -8,6 +8,9 @@
 "meetings":[
 {"studentId":1001,"date":"02\/22\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":0,"time":"08:00 AM","timePeriods":1,"studentIDs":[1001],"tentative":true},
 {"studentId":1001,"date":"02\/22\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":1,"time":"01:00 PM","timePeriods":1,"studentIDs":[1001],"tentative":true},
+{"studentId":1001,"date":"02\/23\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":2,"time":"08:00 AM","timePeriods":1,"studentIDs":[1001],"tentative":true},
+{"studentId":1001,"date":"02\/23\/2021","code":"Scheduling","notes":"We met","adminList":[],"id":3,"time":"01:00 PM","timePeriods":1,"studentIDs":[1001],"tentative":true},
+
 
 ],
 "meetingCodes":["Scheduling", "SST", "504", "Admin"

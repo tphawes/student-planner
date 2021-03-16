@@ -26,7 +26,7 @@ public class TestController {
 		System.out.println("Test GET:");
 		List<Student> studentList = service.retrieveStudents();
 		model.put("studentList", studentList);
-		return "test";
+		return "test2";
 	}
 
 	
